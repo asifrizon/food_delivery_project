@@ -1,0 +1,326 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+}
+
+/* Restaurant Header */
+.restaurant-header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-left: 150px; /* Add space from the left */
+    padding-top: 30px;
+    line-height: 3rem;
+}
+#restaurantImage {
+    width: 200px; /* Make the image larger */
+    height: 200px; /* Set the height to match width (square) */
+    object-fit: cover; /* Ensure image covers the area without distortion */
+    border-radius: 8px;
+    margin-right: 20px; /* Space between image and text */
+}
+
+#restaurantNameHeader {
+    font-size: 2.5rem; /* Adjust the size of the restaurant name */
+    font-weight: 600; /* Simpler font weight */
+    color: #333; /* Simple dark color for the text */
+    text-transform: uppercase; /* Optional: capitalizing the name */
+}
+/* Style for the rating and delivery time icons */
+#rating i,
+#delivery_time i {
+    margin-right: 5px; /* Space between icon and text */
+    color: #ff4800; /* Star color for rating */
+}
+
+/* Optional: Styling for the rating and delivery time */
+#rating,
+#delivery_time {
+    font-size: 1.1rem;
+}
+.right_header
+{
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+}
+.search-bar-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+#searchBar {
+    height: 45px;
+    padding: 10px 40px 10px 15px;
+    border-radius: 25px;
+    border: 2px solid #ff7a00;
+    font-size: 1rem;
+    color: #333;
+    outline: none;
+    transition: all 0.3s ease-in-out;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.search-bar-wrapper i {
+    position: absolute;
+    top: 50%;
+    right: 12%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #ff7a00;
+}
+
+/* Placeholder styling */
+#searchBar::placeholder {
+    color: #888;
+}
+
+/* Focus state */
+#searchBar:focus {
+    border-color: #e55a00;
+    box-shadow: 0 2px 10px rgba(255, 122, 0, 0.5);
+}
+
+/* Hover effect */
+#searchBar:hover {
+    border-color: #ff5f00;
+    box-shadow: 0 2px 8px rgba(255, 122, 0, 0.3);
+}
+/* Food Grid Layout */
+#menu {
+    font-size: 1.7rem;
+    color: rgb(255, 149, 0);
+    margin-left: 36px;
+    margin-top: 20px;
+    border-bottom: 2px solid rgb(255, 149, 0);
+    /* Only a bottom border */
+    padding-bottom: 5px;
+    /* Optional, adds space between text and the border */
+
+}
+
+.food-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 30px;
+    margin-left: 100px;
+    margin-bottom: 20px;
+}
+
+.food-large-card {
+    overflow: hidden;
+    width: 300px;
+    transition: transform 0.4s ease;
+    margin-top: -50px;
+}
+
+.food-large-card .image-wrapper {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px dashed rgb(255, 132, 0);
+    padding: 15px;
+    /* Adjust the padding for the gap */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    top: 70px;
+    right: -80px;
+    z-index: 10;
+
+}
+
+.food-large-card img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.food-card {
+    background: #f4c8a9;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    overflow: hidden;
+    width: 200px;
+    height: 250px;
+    /* Fixed height for all cards */
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.4s ease;
+}
+
+.food-details {
+    margin-top: 80px;
+    padding: 5px;
+    margin-left: 5px;
+    display: flex;
+    flex-direction: column;
+    /* Ensures elements are aligned vertically */
+    flex-grow: 1;
+    /* Allows the section to grow and fill available space */
+}
+
+.food-details h4 {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    word-wrap: break-word;
+    /* Wrap long words */
+    overflow-wrap: break-word;
+    white-space: normal;
+    word-break: break-word;
+    /* Ensure long words do not overflow */
+}
+
+.food-details p {
+    font-size: 1.1rem;
+    color: #6b7280;
+    margin-bottom: 16px;
+}
+
+.food-details .price_add {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: auto;
+    /* Pushes the price_add to the bottom */
+}
+
+.food-details span {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.rating {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+}
+
+.rating i {
+    font-size: 1rem;
+    /* Adjust star size */
+    color: #ff4800;
+    /* Gold color for filled stars */
+}
+
+.rating i.empty {
+    color: #dcdcdc;
+    /* Light gray color for empty stars */
+}
+
+.rating i.half {
+    color: #ffcc00;
+    /* Yellow color for half stars */
+}
+
+
+/* Optional: styling for buy button (if needed) */
+#buy_btn {
+    padding: 10px 10px;
+    background-color: #FF7A00;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-size: 0.85rem;
+    cursor: pointer;
+    border-radius: 2rem;
+    margin-right: 5px;
+}
+
+#buy_btn:hover {
+    background-color: #e55a00;
+}
+
+.food-details span {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+
+/* Back Button */
+.close {
+    padding: 5px 5px;
+    background-color: #FF7A00;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 20px;
+    position: absolute;
+    left: 10px;
+    top: 10px;
+   
+}
+
+.close:hover {
+    background-color: #e55a00;
+}
+
+/* Menu Container */
+.menu-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+
+
+/* Style for the deals_card */
+.deals {
+    margin-left: 30px;
+    padding: 10px;
+}
+
+.deals h3 {
+    font-size: 1.7rem;
+    color: rgb(255, 149, 0);
+    margin-bottom: 10px;
+    border-bottom: 2px solid rgb(255, 149, 0);
+    /* Only a bottom border */
+    padding-bottom: 5px;
+    /* Optional, adds space between text and the border */
+}
+
+.deals_card {
+    display: flex;
+}
+
+.deals-card {
+    width: 320px;
+    height: 110px;
+    border-radius: 1rem;
+    margin: 10px 20px 10px 0;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #ffefe7;
+}
+
+.deals-card h5 {
+    font-size: 16px;
+    margin: 0;
+    color: #2f3032;
+}
+
+.deals-card p {
+    font-size: 13px;
+    margin: 0;
+    color: #6b7280;
+}
+
+.deals-card span {
+    font-size: 14px;
+    color: #ff0000;
+    font-weight: bold;
+}
