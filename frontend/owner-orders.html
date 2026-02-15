@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders Management - Owner Dashboard</title>
+    <link rel="stylesheet" href="owner-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="logo-section">
+            <img src="image/logo (2).png" alt="Logo" class="sidebar-logo">
+            <h2>Gorom Delivery</h2>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <a href="owner-dashboard.html" class="nav-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="owner-restaurants.html" class="nav-item">
+                <i class="fas fa-store"></i>
+                <span>My Restaurants</span>
+            </a>
+            <a href="owner-menu.html" class="nav-item">
+                <i class="fas fa-utensils"></i>
+                <span>Menu Management</span>
+            </a>
+            <a href="owner-orders.html" class="nav-item active">
+                <i class="fas fa-shopping-bag"></i>
+                <span>Orders</span>
+            </a>
+            <a href="owner-offers.html" class="nav-item">
+                <i class="fas fa-percent"></i>
+                <span>Offers & Deals</span>
+            </a>
+            <a href="owner-reviews.html" class="nav-item">
+                <i class="fas fa-star"></i>
+                <span>Reviews</span>
+            </a>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <button class="logout-btn" onclick="handleLogout()">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="top-bar-left">
+                <h1 class="page-title">Orders Management</h1>
+                <select id="restaurantSelector" class="form-select" style="max-width: 250px; margin-left: 20px;">
+                    <option value="">All Restaurants</option>
+                </select>
+            </div>
+            
+            <div class="top-bar-actions">
+                <div class="user-info">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="ownerName">Owner Name</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Orders Content -->
+        <div class="dashboard-container">
+            <!-- Status Filter Tabs -->
+            <div class="status-tabs">
+                <button class="status-tab active" data-status="all" onclick="filterByStatus('all')">
+                    <span>All Orders</span>
+                    <span class="tab-count" id="countAll">0</span>
+                </button>
+                <button class="status-tab" data-status="pending" onclick="filterByStatus('pending')">
+                    <span>Pending</span>
+                    <span class="tab-count warning" id="countPending">0</span>
+                </button>
+                <button class="status-tab" data-status="preparing" onclick="filterByStatus('preparing')">
+                    <span>Preparing</span>
+                    <span class="tab-count info" id="countPreparing">0</span>
+                </button>
+                <button class="status-tab" data-status="ready" onclick="filterByStatus('ready')">
+                    <span>Ready</span>
+                    <span class="tab-count success" id="countReady">0</span>
+                </button>
+                <button class="status-tab" data-status="delivered" onclick="filterByStatus('delivered')">
+                    <span>Delivered</span>
+                    <span class="tab-count" id="countDelivered">0</span>
+                </button>
+            </div>
+            
+            <!-- Orders Table -->
+            <div class="dashboard-section">
+                <div class="orders-table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Restaurant</th>
+                                <th>Items</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Time</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ordersTableBody">
+                            <tr>
+                                <td colspan="8" style="text-align: center; padding: 40px;">
+                                    <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: #FF7A00;"></i>
+                                    <p style="color: #999; margin-top: 10px;">Loading orders...</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Details Modal -->
+    <div id="orderDetailsModal" class="modal">
+        <div class="modal-content large-modal">
+            <div class="modal-header">
+                <h2><i class="fas fa-receipt"></i> Order Details</h2>
+                <span class="modal-close" onclick="closeOrderModal()">&times;</span>
+            </div>
+            
+            <div class="modal-body" id="orderDetailsContent">
+                <!-- Order details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="owner-common.js"></script>
+    <script src="owner-orders.js"></script>
+</body>
+</html>

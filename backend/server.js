@@ -1,25 +1,17 @@
-require("dotenv").config();
-const express = require("express");
+const express = require('express');
+const cors = require('cors'); // Add this
+
 const app = express();
 
-app.use("/api/restaurants", require("./routes/restaurant"));
+// Add CORS BEFORE routes
+app.use(cors()); // Add this line
 
+app.use(express.json());
 
-// test route
-app.get("/api/health", (req, res) => {
-  res.json({ status: "ok", message: "Backend is running" });
+// Your routes
+const restaurantRoutes = require('./routes/restaurant');
+app.use('/api/restaurants', restaurantRoutes);
+
+app.listen(3000, () => {
+    console.log('Server running on http://localhost:3000');
 });
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log("Server running on port", PORT);
-});
-
-// shang high
-// golden pizza
-// dominos pizza
-// chillox banani
-// pizza dine
-// hakka dhaka
-// kacchi dine gulshan
-// almajis arabian restaurant

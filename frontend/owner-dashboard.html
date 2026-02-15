@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owner Dashboard - Gorom Delivery</title>
+    <link rel="stylesheet" href="owner-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="logo-section">
+            <img src="image/logo (2).png" alt="Logo" class="sidebar-logo">
+            <h2>Gorom Delivery</h2>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <a href="owner-dashboard.html" class="nav-item active">
+                <i class="fas fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="owner-restaurants.html" class="nav-item">
+                <i class="fas fa-store"></i>
+                <span>My Restaurants</span>
+            </a>
+            <a href="owner-menu.html" class="nav-item">
+                <i class="fas fa-utensils"></i>
+                <span>Menu Management</span>
+            </a>
+            <a href="owner-orders.html" class="nav-item">
+                <i class="fas fa-shopping-bag"></i>
+                <span>Orders</span>
+            </a>
+            <a href="owner-offers.html" class="nav-item">
+                <i class="fas fa-percent"></i>
+                <span>Offers & Deals</span>
+            </a>
+            <a href="owner-reviews.html" class="nav-item">
+                <i class="fas fa-star"></i>
+                <span>Reviews</span>
+            </a>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <button class="logout-btn" onclick="handleLogout()">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <h1 class="page-title">Dashboard</h1>
+            
+            <div class="top-bar-actions">
+                <div class="user-info">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="ownerName">Owner Name</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard-container">
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #10b981;">
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="todayOrders">0</h3>
+                        <p>Orders Today</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #FF7A00;">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="todayRevenue">৳0</h3>
+                        <p>Revenue Today</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #f59e0b;">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="pendingOrders">0</h3>
+                        <p>Pending Orders</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #6366f1;">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="activeItems">0</h3>
+                        <p>Active Menu Items</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Orders Section -->
+            <div class="dashboard-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-list"></i> Recent Orders</h2>
+                    <a href="owner-orders.html" class="view-all-btn">View All</a>
+                </div>
+                
+                <div class="orders-table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Items</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Time</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentOrdersTable">
+                            <tr>
+                                <td colspan="7" style="text-align: center; padding: 40px;">
+                                    <i class="fas fa-inbox" style="font-size: 3rem; color: #ddd; margin-bottom: 10px;"></i>
+                                    <p style="color: #999;">No orders yet</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions-grid">
+                <a href="owner-restaurants.html" class="action-card">
+                    <i class="fas fa-plus-circle"></i>
+                    <h3>Add Restaurant</h3>
+                    <p>Register a new restaurant</p>
+                </a>
+                
+                <a href="owner-menu.html" class="action-card">
+                    <i class="fas fa-hamburger"></i>
+                    <h3>Add Menu Item</h3>
+                    <p>Add food items to menu</p>
+                </a>
+                
+                <a href="owner-offers.html" class="action-card">
+                    <i class="fas fa-tags"></i>
+                    <h3>Create Offer</h3>
+                    <p>Set up discounts and deals</p>
+                </a>
+                
+                <a href="owner-reviews.html" class="action-card">
+                    <i class="fas fa-comments"></i>
+                    <h3>View Reviews</h3>
+                    <p>Check customer feedback</p>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="owner-common.js"></script>
+    <script src="owner-dashboard.js"></script>
+</body>
+</html>

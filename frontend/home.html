@@ -11,6 +11,8 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 </head>
 
 <body>
@@ -19,16 +21,45 @@
             <div class="logo"><img src="image/logo (2).png" alt=""></div>
             <div class="name"><img src="image/name.png" alt=""></div>
         </div>
-        <div class="middle">
-            <a href="#">Home</a>
-            <a href="#">Restaurents</a>
-            <a href="#">About</a>
-            <a href="#">Contact Us</a>
+        <div class="middle" id="middleSection">
+            <!-- Default view (before login) -->
+            <div class="nav-links" id="navLinks">
+                <a href="#">Home</a>
+                <a href="#">About</a>
+                <a href="#">Contact Us</a>
+            </div>
+            
+            <!-- User profile view (after login/signup) - hidden by default -->
+            <div class="user-profile-display" id="userProfileDisplay" style="display: none;">
+                <div class="profile-info">
+                    <div class="profile-avatar">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <div class="profile-name">
+                        <i class="fa-solid fa-circle-user"></i>
+                        <span id="displayUserName"></span>
+                    </div>
+                    <div class="profile-divider"></div>
+                    <div class="profile-location">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span id="displayUserAddress"></span>
+                    </div>
+                    <button class="logout-btn" id="logoutBtn" title="Logout">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </button>
+                </div>
+            </div>
         </div>
         <div class="right">
-            <a href="#"><img src="image/search_icon.png" alt=""></a>
-            <a href="#"><img src="image/basket_icon.png" alt=""></a>
-            <a href="#" id="profile-icon"><img src="image/profile_icon.png" alt=""></a>
+           <a href="#" id="search-icon"><i class="fa-solid fa-magnifying-glass"></i></a>
+            <div id="search-bar-container" class="search-bar-container">
+                <input type="text" id="search-bar" placeholder="Search...">
+            </div>
+            <a href="#" id="cart-icon" class="cart-icon-wrapper">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span class="cart-badge">0</span>
+            </a>
+            <a href="#" id="profile-icon"><i class="fa-solid fa-user"></i></a>
 
         </div>
 
@@ -39,10 +70,17 @@
                 <h2 id="modalTitle">Login</h2>
                 <form id="loginForm">
                     <label for="username"></label>
-                    <input type="text" id="username" name="username" placeholder="username" required>
+                    <input type="text" id="username" name="username" placeholder="username or email" required>
 
                     <label for="password"></label>
                     <input type="password" id="password" name="password" placeholder="password" required>
+                    
+                    <label for="loginRole"></label>
+                    <select id="loginRole" name="role" required>
+                        <option value="">Select Account Type</option>
+                        <option value="customer">Customer</option>
+                        <option value="owner">Restaurant Owner</option>
+                    </select>
 
                     <button type="submit">Login</button>
                 </form>
@@ -56,20 +94,61 @@
 
         <!-- Signup form hidden initially -->
         <div id="signupModal" class="modal">
-            <div class="modal-content">
+            <div class="modal-content signup-modal-content">
                 <span class="close">&times;</span>
                 <h2 id="modalTitle">Sign Up</h2>
                 <form id="signupForm">
-                    <label for="newUsername"></label>
-                    <input type="text" id="newUsername" name="username" placeholder="username" required>
+                    <div class="form-grid">
+                        <!-- Left Column -->
+                        <div class="form-column">
+                            <h3 class="section-title">Account Details</h3>
+                            
+                            <label for="newUsername"></label>
+                            <input type="text" id="newUsername" name="username" placeholder="Username" required>
 
-                    <label for="email"></label>
-                    <input type="email" id="email" name="email" placeholder="email" required>
+                            <label for="email"></label>
+                            <input type="email" id="email" name="email" placeholder="Email" required>
 
-                    <label for="newPassword"></label>
-                    <input type="password" id="newPassword" name="password" placeholder="password" required>
+                            <label for="newPassword"></label>
+                            <input type="password" id="newPassword" name="password" placeholder="Password" required>
 
-                    <button type="submit">Create Account</button>
+                            <label for="phone"></label>
+                            <input type="tel" id="phone" name="phone" placeholder="Phone Number" required>
+                            
+                            <label for="role"></label>
+                            <select id="role" name="role" required>
+                                <option value="">Select Account Type</option>
+                                <option value="customer">Customer (Order Food)</option>
+                                <option value="owner">Restaurant Owner (Manage Restaurant)</option>
+                            </select>
+                        </div>
+
+                        <!-- Right Column -->
+                        <div class="form-column">
+                            <h3 class="section-title">Delivery Address</h3>
+                            
+                            <label for="city"></label>
+                            <select id="city" name="city" required>
+                                <option value="">Select City</option>
+                                <option value="Dhaka">Dhaka</option>
+                                <option value="Chittagong">Chittagong</option>
+                                <option value="Sylhet">Sylhet</option>
+                                <option value="Rajshahi">Rajshahi</option>
+                                <option value="Khulna">Khulna</option>
+                                <option value="Barisal">Barisal</option>
+                                <option value="Rangpur">Rangpur</option>
+                                <option value="Mymensingh">Mymensingh</option>
+                            </select>
+
+                            <label for="thana"></label>
+                            <input type="text" id="thana" name="thana" placeholder="Thana/Police Station" required>
+
+                            <label for="addressDetails"></label>
+                            <textarea id="addressDetails" name="addressDetails" placeholder="House/Flat No, Road, Area" rows="2" required></textarea>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn-full">Create Account</button>
                 </form>
 
                 <!-- Switch to Login -->
@@ -112,7 +191,30 @@
             </div>
         </div>
     </section>
-    
+
+    <!-- Orders Modal -->
+    <div id="ordersModal" class="orders-modal">
+        <div class="orders-modal-content">
+            <div class="orders-modal-header">
+                <h2><i class="fas fa-shopping-bag"></i> Your Orders</h2>
+                <span class="orders-close">&times;</span>
+            </div>
+            
+            <!-- Empty state -->
+            <div class="orders-empty" id="ordersEmpty">
+                <i class="fas fa-shopping-basket"></i>
+                <p>No pending orders</p>
+                <span>Start ordering from your favorite restaurants!</span>
+            </div>
+            
+            <!-- Orders list -->
+            <div class="orders-list" id="ordersList">
+                <!-- Orders will be dynamically added here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="orderManager.js"></script>
     <script src="app.js"></script>
 
 </body>

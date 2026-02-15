@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reviews - Owner Dashboard</title>
+    <link rel="stylesheet" href="owner-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="logo-section">
+            <img src="image/logo (2).png" alt="Logo" class="sidebar-logo">
+            <h2>Gorom Delivery</h2>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <a href="owner-dashboard.html" class="nav-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="owner-restaurants.html" class="nav-item">
+                <i class="fas fa-store"></i>
+                <span>My Restaurants</span>
+            </a>
+            <a href="owner-menu.html" class="nav-item">
+                <i class="fas fa-utensils"></i>
+                <span>Menu Management</span>
+            </a>
+            <a href="owner-orders.html" class="nav-item">
+                <i class="fas fa-shopping-bag"></i>
+                <span>Orders</span>
+            </a>
+            <a href="owner-offers.html" class="nav-item">
+                <i class="fas fa-percent"></i>
+                <span>Offers & Deals</span>
+            </a>
+            <a href="owner-reviews.html" class="nav-item active">
+                <i class="fas fa-star"></i>
+                <span>Reviews</span>
+            </a>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <button class="logout-btn" onclick="handleLogout()">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="top-bar-left">
+                <h1 class="page-title">Customer Reviews</h1>
+                <select id="restaurantSelector" class="form-select" style="max-width: 250px; margin-left: 20px;">
+                    <option value="">Select Restaurant...</option>
+                </select>
+            </div>
+            
+            <div class="top-bar-actions">
+                <div class="user-info">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="ownerName">Owner Name</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reviews Content -->
+        <div class="dashboard-container">
+            <!-- Rating Summary -->
+            <div class="rating-summary" id="ratingSummary" style="display: none;">
+                <div class="summary-card">
+                    <div class="overall-rating">
+                        <h2 id="avgRating">4.5</h2>
+                        <div class="stars" id="avgStars"></div>
+                        <p id="totalReviews">0 reviews</p>
+                    </div>
+                </div>
+                
+                <div class="rating-breakdown">
+                    <div class="breakdown-row">
+                        <span>5 ⭐</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress5" style="width: 0%"></div>
+                        </div>
+                        <span id="count5">0</span>
+                    </div>
+                    <div class="breakdown-row">
+                        <span>4 ⭐</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress4" style="width: 0%"></div>
+                        </div>
+                        <span id="count4">0</span>
+                    </div>
+                    <div class="breakdown-row">
+                        <span>3 ⭐</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress3" style="width: 0%"></div>
+                        </div>
+                        <span id="count3">0</span>
+                    </div>
+                    <div class="breakdown-row">
+                        <span>2 ⭐</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress2" style="width: 0%"></div>
+                        </div>
+                        <span id="count2">0</span>
+                    </div>
+                    <div class="breakdown-row">
+                        <span>1 ⭐</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress1" style="width: 0%"></div>
+                        </div>
+                        <span id="count1">0</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Rating Filter -->
+            <div class="rating-filter">
+                <button class="filter-btn active" data-rating="all" onclick="filterByRating('all')">All</button>
+                <button class="filter-btn" data-rating="5" onclick="filterByRating('5')">5 ⭐</button>
+                <button class="filter-btn" data-rating="4" onclick="filterByRating('4')">4 ⭐</button>
+                <button class="filter-btn" data-rating="3" onclick="filterByRating('3')">3 ⭐</button>
+                <button class="filter-btn" data-rating="2" onclick="filterByRating('2')">2 ⭐</button>
+                <button class="filter-btn" data-rating="1" onclick="filterByRating('1')">1 ⭐</button>
+            </div>
+            
+            <!-- Reviews List -->
+            <div class="reviews-list" id="reviewsList">
+                <div class="empty-state">
+                    <i class="fas fa-star"></i>
+                    <h3>No Reviews Yet</h3>
+                    <p>Select a restaurant to view customer reviews</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="owner-common.js"></script>
+    <script src="owner-reviews.js"></script>
+</body>
+</html>

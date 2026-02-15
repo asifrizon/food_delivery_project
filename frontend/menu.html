@@ -11,7 +11,9 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 </head>
 
@@ -27,27 +29,170 @@
                     <h4 id="rating"></h4>
                     <p id="delivery_time"></p>
                 </div>
-                <div class="search-bar-container">
-                    <i>Looking for a food?</i>
-                    <div class="search-bar-wrapper">
-                <input type="text" id="searchBar" placeholder="Search food items...">
-                <i class="fas fa-search"></i> <!-- Search icon inside the search bar -->
             </div>
-                </div>
-            </div>
-            <button class="close" onclick="closeMenu()"><i>back</i></button>
+            <button class="close" onclick="closeMenu()"><i class="fa-solid fa-backward"></i></button>
 
         </div>
         <div class="deals">
             <h3 id="deals_header">Available Deals</h3>
             <div class="deals_card" id="deals_grid"></div>
         </div>
-        <h2 id="menu">Menu</h2>
-        <div id="foodGrid" class="food-grid">
-            <!-- Menu items will be dynamically added here -->
+        <div class="menu_category">
+            <div class="left">
+                <h2 id="menu">Menu</h2>
+                <div class="category-scroll-wrapper">
+                    <div id="categoryList"></div> <!-- Category list for navigation -->
+                    <button id="scrollButtonleft" class="scroll-button-left"><i
+                            class="fa-regular fa-square-caret-left"></i></button> <!-- Scroll button -->
+                    <button id="scrollButton" class="scroll-button"><i
+                            class="fa-regular fa-square-caret-right"></i></button> <!-- Scroll button -->
+
+                </div>
+            </div>
+            <div class="right">
+                <a href="#" id="cart-icon" class="cart-icon-wrapper">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="cart-badge">0</span>
+                </a>
+                <div class="search-bar-container">
+                    <div class="search-bar-wrapper">
+                        <input type="text" id="searchBar" placeholder="Search food items...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Main Content Container with Food Grid and Cart -->
+        <div class="content-wrapper">
+            <div id="foodGrid" class="food-grid">
+                <!-- Menu items will be dynamically added here -->
+            </div>
+
+            <!-- Cart Sidebar -->
+            <div class="cart-sidebar" id="cartSidebar">
+                <div class="cart-header">
+                    <h3><i class="fas fa-shopping-cart"></i> Your Cart</h3>
+                </div>
+
+                <!-- Empty Cart State -->
+                <div class="cart-empty" id="cartEmpty">
+                    <i class="fas fa-shopping-basket"></i>
+                    <p>Want to order?</p>
+                    <span>Add items from the menu to get started</span>
+                </div>
+
+                <!-- Cart Items Container -->
+                <div class="cart-items" id="cartItems">
+                    <!-- Cart items will be dynamically added here -->
+                </div>
+
+                <!-- Cart Summary -->
+                <div class="cart-summary" id="cartSummary" style="display: none;">
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span id="cartSubtotal">৳0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Delivery Fee</span>
+                        <span id="cartDeliveryFee">৳50.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>VAT (5%)</span>
+                        <span id="cartVAT">৳0.00</span>
+                    </div>
+                    <div class="summary-row summary-total">
+                        <span>Total</span>
+                        <span id="cartTotal">৳0.00</span>
+                    </div>
+                    <button class="checkout-btn" id="checkoutBtn">
+                        <i class="fas fa-check-circle"></i> Go to Checkout
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
+    <!-- Add to Cart Modal -->
+    <div id="addToCartModal" class="cart-modal">
+        <div class="cart-modal-content">
+            <span class="cart-close">&times;</span>
+            <div class="cart-modal-body">
+                <div class="cart-modal-image">
+                    <img id="modalFoodImage" src="" alt="Food Image">
+                </div>
+                <div class="cart-modal-details">
+                    <h2 id="modalFoodName"></h2>
+                    <p id="modalFoodDescription"></p>
+                    
+                    <!-- Pizza Size Selection (Hidden by default) -->
+                    <div class="size-selector" id="sizeSelector" style="display: none;">
+                        <label>Select Size:</label>
+                        <div class="size-options">
+                            <button class="size-btn" data-size="7" data-multiplier="1">
+                                <span class="size-label">7"</span>
+                                <span class="size-desc">Small</span>
+                            </button>
+                            <button class="size-btn" data-size="10" data-multiplier="1.5">
+                                <span class="size-label">10"</span>
+                                <span class="size-desc">Medium</span>
+                            </button>
+                            <button class="size-btn active" data-size="12" data-multiplier="2">
+                                <span class="size-label">12"</span>
+                                <span class="size-desc">Large</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-price-section">
+                        <span class="modal-price" id="modalFoodPrice"></span>
+                        <span class="base-price-note" id="basePriceNote" style="display: none; font-size: 0.85rem; color: #6b7280; margin-left: 10px;"></span>
+                    </div>
+                    <div class="quantity-selector">
+                        <label>Quantity:</label>
+                        <div class="quantity-controls">
+                            <button class="quantity-btn" id="decreaseQty">-</button>
+                            <input type="number" id="quantityInput" value="1" min="1">
+                            <button class="quantity-btn" id="increaseQty">+</button>
+                        </div>
+                    </div>
+                    <div class="modal-total">
+                        <span>Total: </span>
+                        <span class="total-price" id="modalTotalPrice">৳0.00</span>
+                    </div>
+                    <button class="add-to-cart-btn" id="confirmAddToCart">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Restaurant-Specific Cart Modal -->
+    <div id="restaurantCartModal" class="orders-modal">
+        <div class="orders-modal-content">
+            <div class="orders-modal-header">
+                <h2><i class="fas fa-shopping-bag"></i> Your Cart</h2>
+                <span class="restaurant-cart-close">&times;</span>
+            </div>
+            
+            <!-- Empty state -->
+            <div class="orders-empty" id="restaurantCartEmpty">
+                <i class="fas fa-shopping-basket"></i>
+                <p>Your cart is empty</p>
+                <span>Add items from the menu to get started</span>
+            </div>
+            
+            <!-- Cart content -->
+            <div class="orders-list" id="restaurantCartContent" style="display: none;">
+                <!-- Restaurant order card -->
+                <div class="order-card" id="restaurantOrderCard">
+                    <!-- Will be populated dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="orderManager.js"></script>
     <script src="menu.js"></script>
 </body>
 

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offers Management - Owner Dashboard</title>
+    <link rel="stylesheet" href="owner-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="logo-section">
+            <img src="image/logo (2).png" alt="Logo" class="sidebar-logo">
+            <h2>Gorom Delivery</h2>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <a href="owner-dashboard.html" class="nav-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="owner-restaurants.html" class="nav-item">
+                <i class="fas fa-store"></i>
+                <span>My Restaurants</span>
+            </a>
+            <a href="owner-menu.html" class="nav-item">
+                <i class="fas fa-utensils"></i>
+                <span>Menu Management</span>
+            </a>
+            <a href="owner-orders.html" class="nav-item">
+                <i class="fas fa-shopping-bag"></i>
+                <span>Orders</span>
+            </a>
+            <a href="owner-offers.html" class="nav-item active">
+                <i class="fas fa-percent"></i>
+                <span>Offers & Deals</span>
+            </a>
+            <a href="owner-reviews.html" class="nav-item">
+                <i class="fas fa-star"></i>
+                <span>Reviews</span>
+            </a>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <button class="logout-btn" onclick="handleLogout()">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="top-bar-left">
+                <h1 class="page-title">Offers & Deals</h1>
+                <select id="restaurantSelector" class="form-select" style="max-width: 250px; margin-left: 20px;">
+                    <option value="">Select Restaurant...</option>
+                </select>
+            </div>
+            
+            <div class="top-bar-actions">
+                <button class="btn btn-primary" onclick="openAddOfferModal()">
+                    <i class="fas fa-plus"></i> Create Offer
+                </button>
+                <div class="user-info">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="ownerName">Owner Name</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Offers Content -->
+        <div class="dashboard-container">
+            <!-- Offers Grid -->
+            <div class="offers-grid" id="offersGrid">
+                <div class="empty-state">
+                    <i class="fas fa-percent"></i>
+                    <h3>No Offers Yet</h3>
+                    <p>Select a restaurant and create your first offer</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Offer Modal -->
+    <div id="offerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Create New Offer</h2>
+                <span class="modal-close" onclick="closeOfferModal()">&times;</span>
+            </div>
+            
+            <form id="offerForm" class="modal-body">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="offerType">Offer Type *</label>
+                        <select id="offerType" class="form-select" required>
+                            <option value="">Select Type</option>
+                            <option value="percentage">Percentage Discount</option>
+                            <option value="flat">Flat Discount</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="offerValue">Discount Value *</label>
+                        <input type="number" id="offerValue" class="form-input" required min="1" step="0.01" placeholder="e.g., 20">
+                        <small id="offerValueHint">Enter percentage (e.g., 20 for 20%)</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="minOrderAmount">Min Order Amount (৳)</label>
+                        <input type="number" id="minOrderAmount" class="form-input" min="0" step="0.01" placeholder="0.00">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="maxDiscount">Max Discount (৳)</label>
+                        <input type="number" id="maxDiscount" class="form-input" min="0" step="0.01" placeholder="No limit">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="startDate">Start Date *</label>
+                        <input type="datetime-local" id="startDate" class="form-input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="endDate">End Date *</label>
+                        <input type="datetime-local" id="endDate" class="form-input" required>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeOfferModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Save Offer
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="owner-common.js"></script>
+    <script src="owner-offers.js"></script>
+</body>
+</html>
