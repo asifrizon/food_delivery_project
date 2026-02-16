@@ -80,6 +80,7 @@
                         <option value="">Select Account Type</option>
                         <option value="customer">Customer</option>
                         <option value="owner">Restaurant Owner</option>
+                        <option value="rider">Delivery Rider</option>
                     </select>
 
                     <button type="submit">Login</button>
@@ -120,6 +121,7 @@
                                 <option value="">Select Account Type</option>
                                 <option value="customer">Customer (Order Food)</option>
                                 <option value="owner">Restaurant Owner (Manage Restaurant)</option>
+                                <option value="rider">Delivery Rider (Deliver Orders)</option>
                             </select>
                         </div>
 
@@ -145,6 +147,32 @@
 
                             <label for="addressDetails"></label>
                             <textarea id="addressDetails" name="addressDetails" placeholder="House/Flat No, Road, Area" rows="2" required></textarea>
+                            
+                            <!-- Rider-specific fields (hidden by default) -->
+                            <div id="riderFields" style="display: none;">
+                                <h3 class="section-title" style="margin-top: 20px;">Rider Information</h3>
+                                
+                                <label for="vehicleType"></label>
+                                <select id="vehicleType" name="vehicleType">
+                                    <option value="">Select Vehicle Type</option>
+                                    <option value="bicycle">Bicycle</option>
+                                    <option value="motorcycle">Motorcycle</option>
+                                    <option value="scooter">Scooter</option>
+                                    <option value="car">Car</option>
+                                </select>
+                                
+                                <label for="vehicleNumber"></label>
+                                <input type="text" id="vehicleNumber" name="vehicleNumber" placeholder="Vehicle Registration Number">
+                                
+                                <label for="licenseNumber"></label>
+                                <input type="text" id="licenseNumber" name="licenseNumber" placeholder="Driving License Number">
+                                
+                                <label for="nidNumber"></label>
+                                <input type="text" id="nidNumber" name="nidNumber" placeholder="National ID Number">
+                                
+                                <label for="emergencyContact"></label>
+                                <input type="tel" id="emergencyContact" name="emergencyContact" placeholder="Emergency Contact Number">
+                            </div>
                         </div>
                     </div>
 

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reviews & Ratings - Admin Panel</title>
+    <link rel="stylesheet" href="admin-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="sidebar" id="sidebar">
+        <div class="logo-section">
+            <img src="image/logo (2).png" alt="Logo" class="sidebar-logo">
+            <h2>Admin Panel</h2>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="admin-dashboard.html" class="nav-item"><i class="fas fa-chart-line"></i><span>Dashboard</span></a>
+            <a href="admin-orders.html" class="nav-item"><i class="fas fa-shopping-bag"></i><span>Order Management</span></a>
+            <a href="admin-restaurants.html" class="nav-item"><i class="fas fa-store"></i><span>Restaurants</span></a>
+            <a href="admin-users.html" class="nav-item"><i class="fas fa-users"></i><span>Users</span></a>
+            <a href="admin-riders.html" class="nav-item"><i class="fas fa-motorcycle"></i><span>Riders</span></a>
+            <a href="admin-reviews.html" class="nav-item active"><i class="fas fa-star"></i><span>Reviews & Ratings</span></a>
+            <a href="admin-offers.html" class="nav-item"><i class="fas fa-percent"></i><span>Platform Offers</span></a>
+            <a href="admin-reports.html" class="nav-item"><i class="fas fa-file-alt"></i><span>Reports</span></a>
+            <a href="admin-settings.html" class="nav-item"><i class="fas fa-cog"></i><span>Settings</span></a>
+        </nav>
+        <div class="sidebar-footer">
+            <button class="logout-btn" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i><span>Logout</span></button>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="top-bar">
+            <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+            <h1 class="page-title">Reviews & Ratings</h1>
+            <div class="top-bar-actions">
+                <div class="user-info"><i class="fas fa-user-shield"></i><span id="adminName">Administrator</span></div>
+            </div>
+        </div>
+
+        <div class="dashboard-container">
+            <div class="quick-stats-row">
+                <div class="quick-stat">
+                    <div class="quick-stat-icon"><i class="fas fa-star"></i></div>
+                    <div class="quick-stat-info"><h4>Total Reviews</h4><p>3,456</p></div>
+                </div>
+                <div class="quick-stat">
+                    <div class="quick-stat-icon success"><i class="fas fa-star"></i></div>
+                    <div class="quick-stat-info"><h4>Avg Rating</h4><p>4.6</p></div>
+                </div>
+                <div class="quick-stat">
+                    <div class="quick-stat-icon warning"><i class="fas fa-flag"></i></div>
+                    <div class="quick-stat-info"><h4>Flagged</h4><p>23</p></div>
+                </div>
+                <div class="quick-stat">
+                    <div class="quick-stat-icon info"><i class="fas fa-clock"></i></div>
+                    <div class="quick-stat-info"><h4>This Week</h4><p>187</p></div>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <div class="filter-group">
+                    <label><i class="fas fa-filter"></i> Rating:</label>
+                    <select class="form-select">
+                        <option>All Ratings</option>
+                        <option>5 Stars</option>
+                        <option>4 Stars</option>
+                        <option>3 Stars</option>
+                        <option>2 Stars</option>
+                        <option>1 Star</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label><i class="fas fa-filter"></i> Type:</label>
+                    <select class="form-select">
+                        <option>All Reviews</option>
+                        <option>Restaurant</option>
+                        <option>Rider</option>
+                        <option>Flagged</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label><i class="fas fa-search"></i> Search:</label>
+                    <input type="text" class="form-input" placeholder="Search reviews...">
+                </div>
+            </div>
+
+            <div class="dashboard-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-star"></i> Recent Reviews</h2>
+                </div>
+                <div id="reviewsList"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin-common.js"></script>
+    <script src="admin-reviews.js"></script>
+</body>
+</html>

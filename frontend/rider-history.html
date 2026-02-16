@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery History - Rider Dashboard</title>
+    <link rel="stylesheet" href="rider-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="logo-section">
+            <img src="image/logo (2).png" alt="Logo" class="sidebar-logo">
+            <h2>Gorom Delivery</h2>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <a href="rider-dashboard.html" class="nav-item">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="rider-orders.html" class="nav-item">
+                <i class="fas fa-shopping-bag"></i>
+                <span>Available Orders</span>
+                <span class="notification-badge" id="availableOrdersBadge">0</span>
+            </a>
+            <a href="rider-active.html" class="nav-item">
+                <i class="fas fa-motorcycle"></i>
+                <span>Active Deliveries</span>
+                <span class="notification-badge active" id="activeOrdersBadge">0</span>
+            </a>
+            <a href="rider-history.html" class="nav-item active">
+                <i class="fas fa-history"></i>
+                <span>Delivery History</span>
+            </a>
+            <a href="rider-earnings.html" class="nav-item">
+                <i class="fas fa-wallet"></i>
+                <span>Earnings</span>
+            </a>
+            <a href="rider-profile.html" class="nav-item">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+            </a>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <div class="online-status">
+                <label class="toggle-switch">
+                    <input type="checkbox" id="onlineToggle">
+                    <span class="toggle-slider"></span>
+                </label>
+                <span id="statusText">Offline</span>
+            </div>
+            <button class="logout-btn" onclick="handleLogout()">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <h1 class="page-title">Delivery History</h1>
+            
+            <div class="top-bar-actions">
+                <div class="user-info">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="riderName">Rider Name</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- History Content -->
+        <div class="dashboard-container">
+            <!-- Filter Section -->
+            <div class="filter-section">
+                <div class="filter-group">
+                    <label><i class="fas fa-calendar"></i> Period:</label>
+                    <select id="periodFilter" class="form-select">
+                        <option value="today">Today</option>
+                        <option value="week">This Week</option>
+                        <option value="month">This Month</option>
+                        <option value="all">All Time</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label><i class="fas fa-search"></i> Search:</label>
+                    <input type="text" id="searchInput" class="form-select" placeholder="Order ID, Restaurant, Customer...">
+                </div>
+            </div>
+
+            <!-- Stats Summary -->
+            <div class="stats-summary">
+                <div class="summary-card">
+                    <i class="fas fa-box"></i>
+                    <div>
+                        <h3 id="totalDeliveries">0</h3>
+                        <p>Total Deliveries</p>
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <i class="fas fa-dollar-sign"></i>
+                    <div>
+                        <h3 id="totalEarned">৳0</h3>
+                        <p>Total Earned</p>
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <i class="fas fa-chart-line"></i>
+                    <div>
+                        <h3 id="avgDeliveryFee">৳0</h3>
+                        <p>Avg Fee/Delivery</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- History Table -->
+            <div class="dashboard-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-list"></i> Completed Deliveries</h2>
+                </div>
+                
+                <div class="table-container">
+                    <table class="history-table">
+                        <thead>
+                            <tr>
+                                <th>Date & Time</th>
+                                <th>Order ID</th>
+                                <th>Restaurant</th>
+                                <th>Customer</th>
+                                <th>Distance</th>
+                                <th>Earned</th>
+                                <th>Rating</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historyTableBody">
+                            <!-- History rows will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="rider-common.js"></script>
+    <script src="rider-history.js"></script>
+</body>
+</html>

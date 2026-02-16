@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports & Analytics - Admin Panel</title>
+    <link rel="stylesheet" href="admin-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="sidebar" id="sidebar">
+        <div class="logo-section">
+            <img src="image/logo (2).png" alt="Logo" class="sidebar-logo">
+            <h2>Admin Panel</h2>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="admin-dashboard.html" class="nav-item"><i class="fas fa-chart-line"></i><span>Dashboard</span></a>
+            <a href="admin-orders.html" class="nav-item"><i class="fas fa-shopping-bag"></i><span>Order Management</span></a>
+            <a href="admin-restaurants.html" class="nav-item"><i class="fas fa-store"></i><span>Restaurants</span></a>
+            <a href="admin-users.html" class="nav-item"><i class="fas fa-users"></i><span>Users</span></a>
+            <a href="admin-riders.html" class="nav-item"><i class="fas fa-motorcycle"></i><span>Riders</span></a>
+            <a href="admin-reviews.html" class="nav-item"><i class="fas fa-star"></i><span>Reviews & Ratings</span></a>
+            <a href="admin-offers.html" class="nav-item"><i class="fas fa-percent"></i><span>Platform Offers</span></a>
+            <a href="admin-reports.html" class="nav-item active"><i class="fas fa-file-alt"></i><span>Reports</span></a>
+            <a href="admin-settings.html" class="nav-item"><i class="fas fa-cog"></i><span>Settings</span></a>
+        </nav>
+        <div class="sidebar-footer">
+            <button class="logout-btn" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i><span>Logout</span></button>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="top-bar">
+            <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+            <h1 class="page-title">Reports & Analytics</h1>
+            <div class="top-bar-actions">
+                <div class="user-info"><i class="fas fa-user-shield"></i><span id="adminName">Administrator</span></div>
+            </div>
+        </div>
+
+        <div class="dashboard-container">
+            <div class="filter-section">
+                <div class="filter-group">
+                    <label><i class="fas fa-calendar"></i> Period:</label>
+                    <select class="form-select">
+                        <option>Last 7 Days</option>
+                        <option>Last 30 Days</option>
+                        <option>Last 90 Days</option>
+                        <option>This Year</option>
+                        <option>Custom Range</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary"><i class="fas fa-download"></i> Export Report</button>
+            </div>
+
+            <div class="reports-grid">
+                <div class="report-card">
+                    <div class="report-icon"><i class="fas fa-dollar-sign"></i></div>
+                    <h3>Revenue Report</h3>
+                    <p>View detailed revenue breakdown by restaurant, category, and time period</p>
+                    <button class="btn btn-secondary"><i class="fas fa-eye"></i> View Report</button>
+                </div>
+                
+                <div class="report-card">
+                    <div class="report-icon"><i class="fas fa-shopping-bag"></i></div>
+                    <h3>Orders Report</h3>
+                    <p>Analyze order trends, peak hours, and delivery performance</p>
+                    <button class="btn btn-secondary"><i class="fas fa-eye"></i> View Report</button>
+                </div>
+                
+                <div class="report-card">
+                    <div class="report-icon"><i class="fas fa-users"></i></div>
+                    <h3>User Growth Report</h3>
+                    <p>Track new user registrations and retention metrics</p>
+                    <button class="btn btn-secondary"><i class="fas fa-eye"></i> View Report</button>
+                </div>
+                
+                <div class="report-card">
+                    <div class="report-icon"><i class="fas fa-store"></i></div>
+                    <h3>Restaurant Performance</h3>
+                    <p>Compare restaurant sales, ratings, and order volumes</p>
+                    <button class="btn btn-secondary"><i class="fas fa-eye"></i> View Report</button>
+                </div>
+                
+                <div class="report-card">
+                    <div class="report-icon"><i class="fas fa-motorcycle"></i></div>
+                    <h3>Rider Efficiency</h3>
+                    <p>Monitor rider performance, delivery times, and ratings</p>
+                    <button class="btn btn-secondary"><i class="fas fa-eye"></i> View Report</button>
+                </div>
+                
+                <div class="report-card">
+                    <div class="report-icon"><i class="fas fa-chart-pie"></i></div>
+                    <h3>Category Analysis</h3>
+                    <p>See which food categories are most popular</p>
+                    <button class="btn btn-secondary"><i class="fas fa-eye"></i> View Report</button>
+                </div>
+            </div>
+
+            <div class="dashboard-section" style="margin-top: 30px;">
+                <div class="section-header">
+                    <h2><i class="fas fa-chart-line"></i> Quick Analytics</h2>
+                </div>
+                <div class="analytics-placeholder">
+                    <i class="fas fa-chart-bar" style="font-size: 4rem; color: #e5e7eb; margin-bottom: 20px;"></i>
+                    <h3>Analytics Dashboard</h3>
+                    <p style="color: #6b7280;">Charts and graphs will be displayed here</p>
+                    <p style="color: #6b7280; margin-top: 10px;">Revenue trends, order volume, user growth, etc.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin-common.js"></script>
+    <script src="admin-reports.js"></script>
+</body>
+</html>

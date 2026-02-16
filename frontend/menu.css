@@ -98,16 +98,16 @@
     white-space: nowrap;
 
 }
-#scrollButtonleft i
-{
+
+#scrollButtonleft i {
     position: absolute;
     top: 28%;
     left: 12%;
     border: none;
     font-size: 1.5rem;
 }
-#scrollButton i
-{
+
+#scrollButton i {
     position: absolute;
     top: 28%;
     left: 71%;
@@ -116,6 +116,7 @@
 
 
 }
+
 .category-link {
     color: #6b7280;
     font-size: 1.1rem;
@@ -125,12 +126,13 @@
     padding: 2px;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
-.category-link:hover
-{
+
+.category-link:hover {
     background-color: #ff7a00;
     font-weight: bold;
     color: black;
 }
+
 .search-bar-wrapper {
     position: relative;
     width: 100%;
@@ -174,6 +176,7 @@
     border-color: #ff5f00;
     box-shadow: 0 2px 8px rgba(255, 122, 0, 0.3);
 }
+
 .no-results {
     display: flex;
     align-items: center;
@@ -196,14 +199,14 @@
     margin-top: 2px;
 
 }
-.right
-{
+
+.right {
     width: 24%;
     display: flex;
     justify-content: space-between;
 }
-.right a
-{
+
+.right a {
     text-decoration: none;
     font-size: 1.6rem;
     padding: 5px;
@@ -237,9 +240,17 @@
 }
 
 @keyframes bounceIn {
-    0% { transform: scale(0); }
-    50% { transform: scale(1.2); }
-    100% { transform: scale(1); }
+    0% {
+        transform: scale(0);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 /* ===========================
@@ -778,8 +789,13 @@
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 .cart-modal-content {
@@ -802,6 +818,7 @@
         transform: translateY(-50px);
         opacity: 0;
     }
+
     to {
         transform: translateY(0);
         opacity: 1;
@@ -1093,16 +1110,17 @@
 .add-to-cart-btn:active {
     transform: translateY(0);
 }
-#confirmAddToCart
-{
+
+#confirmAddToCart {
     margin-bottom: 2rem;
 }
+
 /* Responsive Design */
 @media (max-width: 1400px) {
     .content-wrapper {
         padding: 0 20px 30px 80px;
     }
-    
+
     .cart-sidebar {
         width: 340px;
     }
@@ -1112,7 +1130,7 @@
     .content-wrapper {
         flex-direction: column;
     }
-    
+
     .cart-sidebar {
         width: 100%;
         position: relative;
@@ -1120,7 +1138,7 @@
         max-height: none;
         order: -1;
     }
-    
+
     .food-grid {
         margin-left: 0;
     }
@@ -1132,53 +1150,54 @@
         margin: 5% auto;
         max-height: 95vh;
     }
-    
+
     .cart-modal-body {
         flex-direction: column;
         padding: 25px 15px;
         gap: 20px;
         max-height: calc(95vh - 60px);
     }
-    
+
     .cart-modal-image img {
         max-width: 250px;
         height: 250px;
     }
-    
+
     .cart-modal-details h2 {
         font-size: 1.5rem;
     }
-    
+
     .cart-close {
         top: 15px;
         right: 20px;
         font-size: 30px;
     }
-    
+
     .content-wrapper {
         padding: 0 15px 20px 15px;
     }
-    
+
     .cart-sidebar {
         padding: 20px;
     }
-    
+
     .size-options {
         gap: 8px;
     }
-    
+
     .size-btn {
         padding: 10px 6px;
     }
-    
+
     .size-label {
         font-size: 1.1rem;
     }
-    
+
     .size-desc {
         font-size: 0.75rem;
     }
 }
+
 /* ===========================
    Orders Modal Styles
 =========================== */
@@ -1465,39 +1484,53 @@
     color: #FF7A00;
 }
 
+.restaurant-cart-close {
+    font-size: 35px;
+    font-weight: bold;
+    color: #aaa;
+    cursor: pointer;
+    z-index: 1001;
+    transition: color 0.3s ease;
+}
+
+.restaurant-cart-close:hover,
+.restaurant-cart-close:focus {
+    color: #000;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .orders-modal-content {
         width: 95%;
         margin: 5% auto;
     }
-    
+
     .orders-modal-header {
         padding: 20px;
     }
-    
+
     .orders-modal-header h2 {
         font-size: 1.4rem;
     }
-    
+
     .orders-list {
         padding: 15px;
     }
-    
+
     .order-card {
         padding: 20px;
     }
-    
+
     .order-header {
         flex-direction: column;
         align-items: flex-start;
     }
-    
+
     .order-actions {
         width: 100%;
         flex-direction: column;
     }
-    
+
     .order-view-btn,
     .order-remove-btn {
         width: 100%;

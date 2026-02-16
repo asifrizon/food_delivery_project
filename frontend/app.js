@@ -109,6 +109,30 @@ function initializeModals() {
     // Handle signup form submission
     const signupForm = document.getElementById('signupForm');
     if (signupForm) {
+        // Add role change listener to show/hide rider fields
+        const roleSelect = document.getElementById('role');
+        const riderFields = document.getElementById('riderFields');
+        
+        if (roleSelect && riderFields) {
+            roleSelect.addEventListener('change', function() {
+                if (this.value === 'rider') {
+                    riderFields.style.display = 'block';
+                    // Make rider fields required
+                    document.getElementById('vehicleType').required = true;
+                    document.getElementById('vehicleNumber').required = true;
+                    document.getElementById('licenseNumber').required = true;
+                    document.getElementById('nidNumber').required = true;
+                } else {
+                    riderFields.style.display = 'none';
+                    // Make rider fields optional
+                    document.getElementById('vehicleType').required = false;
+                    document.getElementById('vehicleNumber').required = false;
+                    document.getElementById('licenseNumber').required = false;
+                    document.getElementById('nidNumber').required = false;
+                }
+            });
+        }
+        
         signupForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -132,6 +156,17 @@ function initializeModals() {
                 addressDetails: addressDetails
             };
             
+            // Add rider-specific data if role is rider
+            if (role === 'rider') {
+                userData.vehicleType = document.getElementById('vehicleType').value;
+                userData.vehicleNumber = document.getElementById('vehicleNumber').value;
+                userData.licenseNumber = document.getElementById('licenseNumber').value;
+                userData.nidNumber = document.getElementById('nidNumber').value;
+                userData.emergencyContact = document.getElementById('emergencyContact').value;
+                userData.riderRating = 5.0; // Default rating
+                userData.totalDeliveries = 0;
+            }
+            
             // Store in localStorage
             localStorage.setItem('currentUser', JSON.stringify(userData));
             
@@ -142,6 +177,9 @@ function initializeModals() {
             if (role === 'owner') {
                 alert('Account created successfully! Redirecting to Owner Dashboard...');
                 window.location.href = 'owner-dashboard.html';
+            } else if (role === 'rider') {
+                alert('Account created successfully! Redirecting to Rider Dashboard...');
+                window.location.href = 'rider-dashboard.html';
             } else {
                 // Display user profile for customers
                 displayUserProfile(userData);
@@ -177,6 +215,9 @@ function initializeModals() {
             if (role === 'owner') {
                 alert('Logged in successfully! Redirecting to Owner Dashboard...');
                 window.location.href = 'owner-dashboard.html';
+            } else if (role === 'rider') {
+                alert('Logged in successfully! Redirecting to Rider Dashboard...');
+                window.location.href = 'rider-dashboard.html';
             } else {
                 displayUserProfile(mockUser);
                 alert('Logged in successfully!');

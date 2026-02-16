@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Management - Admin Panel</title>
+    <link rel="stylesheet" href="admin-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="sidebar" id="sidebar">
+        <div class="logo-section">
+            <img src="image/logo (2).png" alt="Logo" class="sidebar-logo">
+            <h2>Admin Panel</h2>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="admin-dashboard.html" class="nav-item"><i class="fas fa-chart-line"></i><span>Dashboard</span></a>
+            <a href="admin-orders.html" class="nav-item active"><i class="fas fa-shopping-bag"></i><span>Order Management</span></a>
+            <a href="admin-restaurants.html" class="nav-item"><i class="fas fa-store"></i><span>Restaurants</span></a>
+            <a href="admin-users.html" class="nav-item"><i class="fas fa-users"></i><span>Users</span></a>
+            <a href="admin-riders.html" class="nav-item"><i class="fas fa-motorcycle"></i><span>Riders</span></a>
+            <a href="admin-reviews.html" class="nav-item"><i class="fas fa-star"></i><span>Reviews & Ratings</span></a>
+            <a href="admin-offers.html" class="nav-item"><i class="fas fa-percent"></i><span>Platform Offers</span></a>
+            <a href="admin-reports.html" class="nav-item"><i class="fas fa-file-alt"></i><span>Reports</span></a>
+            <a href="admin-settings.html" class="nav-item"><i class="fas fa-cog"></i><span>Settings</span></a>
+        </nav>
+        <div class="sidebar-footer">
+            <button class="logout-btn" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i><span>Logout</span></button>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="top-bar">
+            <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+            <h1 class="page-title">Order Management</h1>
+            <div class="top-bar-actions">
+                <div class="user-info"><i class="fas fa-user-shield"></i><span id="adminName">Administrator</span></div>
+            </div>
+        </div>
+
+        <div class="dashboard-container">
+            <!-- Filters -->
+            <div class="filter-section">
+                <div class="filter-group">
+                    <label><i class="fas fa-filter"></i> Status:</label>
+                    <select id="statusFilter" class="form-select">
+                        <option value="all">All Orders</option>
+                        <option value="pending">Pending</option>
+                        <option value="preparing">Preparing</option>
+                        <option value="ready">Ready</option>
+                        <option value="in_transit">In Transit</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label><i class="fas fa-search"></i> Search:</label>
+                    <input type="text" id="searchInput" class="form-input" placeholder="Order ID, Customer, Restaurant...">
+                </div>
+                <button class="btn btn-primary" onclick="refreshOrders()"><i class="fas fa-sync"></i> Refresh</button>
+            </div>
+
+            <!-- Status Tabs -->
+            <div class="status-tabs">
+                <button class="status-tab active" data-status="all" onclick="filterByStatus('all')">
+                    All <span class="tab-count" id="countAll">0</span>
+                </button>
+                <button class="status-tab" data-status="pending" onclick="filterByStatus('pending')">
+                    Pending <span class="tab-count warning" id="countPending">0</span>
+                </button>
+                <button class="status-tab" data-status="preparing" onclick="filterByStatus('preparing')">
+                    Preparing <span class="tab-count info" id="countPreparing">0</span>
+                </button>
+                <button class="status-tab" data-status="delivered" onclick="filterByStatus('delivered')">
+                    Delivered <span class="tab-count success" id="countDelivered">0</span>
+                </button>
+            </div>
+
+            <!-- Orders Table -->
+            <div class="dashboard-section">
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Restaurant</th>
+                                <th>Rider</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Time</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ordersTableBody">
+                            <tr>
+                                <td colspan="8" style="text-align: center; padding: 40px;">
+                                    <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: #FF7A00;"></i>
+                                    <p style="color: #999; margin-top: 10px;">Loading orders...</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Details Modal -->
+    <div id="orderModal" class="modal">
+        <div class="modal-content large-modal">
+            <div class="modal-header">
+                <h2><i class="fas fa-receipt"></i> Order Details</h2>
+                <span class="modal-close" onclick="closeOrderModal()">&times;</span>
+            </div>
+            <div class="modal-body" id="orderModalContent"></div>
+        </div>
+    </div>
+
+    <script src="admin-common.js"></script>
+    <script src="admin-orders.js"></script>
+</body>
+</html>

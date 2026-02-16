@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Rider Dashboard</title>
+    <link rel="stylesheet" href="rider-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="sidebar" id="sidebar">
+        <div class="logo-section">
+            <img src="image/logo (2).png" alt="Logo" class="sidebar-logo">
+            <h2>Gorom Delivery</h2>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="rider-dashboard.html" class="nav-item"><i class="fas fa-home"></i><span>Dashboard</span></a>
+            <a href="rider-orders.html" class="nav-item"><i class="fas fa-shopping-bag"></i><span>Available Orders</span></a>
+            <a href="rider-active.html" class="nav-item"><i class="fas fa-motorcycle"></i><span>Active Deliveries</span></a>
+            <a href="rider-history.html" class="nav-item"><i class="fas fa-history"></i><span>Delivery History</span></a>
+            <a href="rider-earnings.html" class="nav-item"><i class="fas fa-wallet"></i><span>Earnings</span></a>
+            <a href="rider-profile.html" class="nav-item active"><i class="fas fa-user"></i><span>Profile</span></a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="online-status">
+                <label class="toggle-switch">
+                    <input type="checkbox" id="onlineToggle">
+                    <span class="toggle-slider"></span>
+                </label>
+                <span id="statusText">Offline</span>
+            </div>
+            <button class="logout-btn" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i><span>Logout</span></button>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="top-bar">
+            <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+            <h1 class="page-title">My Profile</h1>
+            <div class="top-bar-actions">
+                <div class="user-info"><i class="fas fa-user-circle"></i><span id="riderName">Rider Name</span></div>
+            </div>
+        </div>
+        <div class="dashboard-container">
+            <!-- Profile Incomplete Warning -->
+            <div id="profileIncompleteWarning" class="warning-banner" style="display: none;">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div>
+                    <strong>Profile Incomplete!</strong>
+                    <p>Please complete your vehicle information to start accepting delivery orders.</p>
+                </div>
+                <button class="btn btn-primary btn-sm" onclick="openEditModal()">
+                    <i class="fas fa-edit"></i> Complete Now
+                </button>
+            </div>
+            
+            <div class="profile-container">
+                <div class="profile-card">
+                    <div class="profile-header">
+                        <div class="profile-avatar-large"><i class="fas fa-user"></i></div>
+                        <h2 id="profileName">Rider Name</h2>
+                        <div class="profile-rating">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            <span>4.8</span>
+                        </div>
+                    </div>
+                    <div class="profile-stats">
+                        <div class="stat"><h3>856</h3><p>Total Deliveries</p></div>
+                        <div class="stat"><h3>৳45,250</h3><p>Total Earned</p></div>
+                        <div class="stat"><h3>2.5 yrs</h3><p>Member Since</p></div>
+                    </div>
+                </div>
+                <div class="profile-details">
+                    <h3><i class="fas fa-info-circle"></i> Personal Information</h3>
+                    <div class="detail-row"><label>Email:</label><span id="profileEmail">rider@example.com</span></div>
+                    <div class="detail-row"><label>Phone:</label><span id="profilePhone">+880 1712-345678</span></div>
+                    <div class="detail-row"><label>Address:</label><span id="profileAddress">Mirpur 10, Dhaka</span></div>
+                    
+                    <h3 style="margin-top: 30px;"><i class="fas fa-motorcycle"></i> Vehicle Information</h3>
+                    <div class="detail-row"><label>Vehicle Type:</label><span id="profileVehicle">Motorcycle</span></div>
+                    <div class="detail-row"><label>Vehicle Number:</label><span id="profileVehicleNumber">DHK-METRO-123456</span></div>
+                    <div class="detail-row"><label>License Number:</label><span id="profileLicense">1234567890</span></div>
+                    
+                    <button class="btn btn-primary" onclick="openEditModal()" style="margin-top: 30px;"><i class="fas fa-edit"></i> Edit Profile</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div id="editProfileModal" class="modal">
+        <div class="modal-content large-modal">
+            <div class="modal-header">
+                <h2><i class="fas fa-user-edit"></i> Edit Profile</h2>
+                <span class="modal-close" onclick="closeEditModal()">&times;</span>
+            </div>
+            
+            <form id="editProfileForm" class="modal-body">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="editUsername">Username *</label>
+                        <input type="text" id="editUsername" class="form-input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editEmail">Email *</label>
+                        <input type="email" id="editEmail" class="form-input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editPhone">Phone *</label>
+                        <input type="tel" id="editPhone" class="form-input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editCity">City *</label>
+                        <select id="editCity" class="form-input" required>
+                            <option value="">Select City</option>
+                            <option value="Dhaka">Dhaka</option>
+                            <option value="Chittagong">Chittagong</option>
+                            <option value="Sylhet">Sylhet</option>
+                            <option value="Rajshahi">Rajshahi</option>
+                            <option value="Khulna">Khulna</option>
+                            <option value="Barisal">Barisal</option>
+                            <option value="Rangpur">Rangpur</option>
+                            <option value="Mymensingh">Mymensingh</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group full-width">
+                        <label for="editThana">Thana/Area *</label>
+                        <input type="text" id="editThana" class="form-input" required>
+                    </div>
+                    
+                    <div class="form-group full-width">
+                        <label for="editAddress">Address Details *</label>
+                        <textarea id="editAddress" class="form-input" rows="2" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editVehicleType">Vehicle Type *</label>
+                        <select id="editVehicleType" class="form-input" required>
+                            <option value="">Select Vehicle Type</option>
+                            <option value="bicycle">Bicycle</option>
+                            <option value="motorcycle">Motorcycle</option>
+                            <option value="scooter">Scooter</option>
+                            <option value="car">Car</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editVehicleNumber">Vehicle Number *</label>
+                        <input type="text" id="editVehicleNumber" class="form-input" required placeholder="e.g., DHK-METRO-123456">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editLicense">License Number *</label>
+                        <input type="text" id="editLicense" class="form-input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editNID">NID Number *</label>
+                        <input type="text" id="editNID" class="form-input" required>
+                    </div>
+                    
+                    <div class="form-group full-width">
+                        <label for="editEmergencyContact">Emergency Contact</label>
+                        <input type="tel" id="editEmergencyContact" class="form-input">
+                    </div>
+                </div>
+                
+                <div class="modal-footer" style="margin-top: 20px;">
+                    <button type="button" class="btn btn-secondary" onclick="closeEditModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="rider-common.js"></script>
+    <script>
+        function openEditModal() {
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            if (user) {
+                // Populate form with current data
+                document.getElementById('editUsername').value = user.username || '';
+                document.getElementById('editEmail').value = user.email || '';
+                document.getElementById('editPhone').value = user.phone || '';
+                document.getElementById('editCity').value = user.city || '';
+                document.getElementById('editThana').value = user.thana || '';
+                document.getElementById('editAddress').value = user.addressDetails || '';
+                document.getElementById('editVehicleType').value = user.vehicleType || '';
+                document.getElementById('editVehicleNumber').value = user.vehicleNumber || '';
+                document.getElementById('editLicense').value = user.licenseNumber || '';
+                document.getElementById('editNID').value = user.nidNumber || '';
+                document.getElementById('editEmergencyContact').value = user.emergencyContact || '';
+            }
+            
+            document.getElementById('editProfileModal').style.display = 'flex';
+        }
+        
+        function closeEditModal() {
+            document.getElementById('editProfileModal').style.display = 'none';
+        }
+        
+        // Handle form submission
+        document.getElementById('editProfileForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            
+            // Update user data
+            user.username = document.getElementById('editUsername').value;
+            user.email = document.getElementById('editEmail').value;
+            user.phone = document.getElementById('editPhone').value;
+            user.city = document.getElementById('editCity').value;
+            user.thana = document.getElementById('editThana').value;
+            user.addressDetails = document.getElementById('editAddress').value;
+            user.vehicleType = document.getElementById('editVehicleType').value;
+            user.vehicleNumber = document.getElementById('editVehicleNumber').value;
+            user.licenseNumber = document.getElementById('editLicense').value;
+            user.nidNumber = document.getElementById('editNID').value;
+            user.emergencyContact = document.getElementById('editEmergencyContact').value;
+            
+            // Save to localStorage
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            
+            // Show success notification
+            if (window.riderPortal) {
+                riderPortal.showNotification('Profile updated successfully!', 'success');
+            } else {
+                alert('Profile updated successfully!');
+            }
+            
+            closeEditModal();
+            
+            // Refresh the page to show updated data
+            location.reload();
+        });
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', function(e) {
+            const modal = document.getElementById('editProfileModal');
+            if (e.target === modal) {
+                closeEditModal();
+            }
+        });
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            if (user) {
+                document.getElementById('profileName').textContent = user.username;
+                document.getElementById('profileEmail').textContent = user.email || 'N/A';
+                document.getElementById('profilePhone').textContent = user.phone || 'N/A';
+                document.getElementById('profileAddress').textContent = `${user.addressDetails}, ${user.thana}, ${user.city}`;
+                document.getElementById('profileVehicle').textContent = user.vehicleType || 'N/A';
+                document.getElementById('profileVehicleNumber').textContent = user.vehicleNumber || 'N/A';
+                document.getElementById('profileLicense').textContent = user.licenseNumber || 'N/A';
+                
+                // Check if vehicle info is complete
+                const vehicleInfoComplete = user.vehicleType && user.vehicleNumber && user.licenseNumber && user.nidNumber;
+                if (!vehicleInfoComplete) {
+                    document.getElementById('profileIncompleteWarning').style.display = 'flex';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

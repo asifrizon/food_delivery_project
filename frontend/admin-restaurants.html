@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Management - Admin Panel</title>
+    <link rel="stylesheet" href="admin-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="sidebar" id="sidebar">
+        <div class="logo-section">
+            <img src="image/logo (2).png" alt="Logo" class="sidebar-logo">
+            <h2>Admin Panel</h2>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="admin-dashboard.html" class="nav-item"><i class="fas fa-chart-line"></i><span>Dashboard</span></a>
+            <a href="admin-orders.html" class="nav-item"><i class="fas fa-shopping-bag"></i><span>Order Management</span></a>
+            <a href="admin-restaurants.html" class="nav-item active"><i class="fas fa-store"></i><span>Restaurants</span></a>
+            <a href="admin-users.html" class="nav-item"><i class="fas fa-users"></i><span>Users</span></a>
+            <a href="admin-riders.html" class="nav-item"><i class="fas fa-motorcycle"></i><span>Riders</span></a>
+            <a href="admin-reviews.html" class="nav-item"><i class="fas fa-star"></i><span>Reviews & Ratings</span></a>
+            <a href="admin-offers.html" class="nav-item"><i class="fas fa-percent"></i><span>Platform Offers</span></a>
+            <a href="admin-reports.html" class="nav-item"><i class="fas fa-file-alt"></i><span>Reports</span></a>
+            <a href="admin-settings.html" class="nav-item"><i class="fas fa-cog"></i><span>Settings</span></a>
+        </nav>
+        <div class="sidebar-footer">
+            <button class="logout-btn" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i><span>Logout</span></button>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="top-bar">
+            <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+            <h1 class="page-title">Restaurant Management</h1>
+            <div class="top-bar-actions">
+                <div class="user-info"><i class="fas fa-user-shield"></i><span id="adminName">Administrator</span></div>
+            </div>
+        </div>
+
+        <div class="dashboard-container">
+            <!-- Quick Stats -->
+            <div class="quick-stats-row">
+                <div class="quick-stat">
+                    <div class="quick-stat-icon"><i class="fas fa-store"></i></div>
+                    <div class="quick-stat-info">
+                        <h4>Total Restaurants</h4>
+                        <p id="totalRestaurants">156</p>
+                    </div>
+                </div>
+                <div class="quick-stat">
+                    <div class="quick-stat-icon success"><i class="fas fa-check-circle"></i></div>
+                    <div class="quick-stat-info">
+                        <h4>Active</h4>
+                        <p id="activeRestaurants">142</p>
+                    </div>
+                </div>
+                <div class="quick-stat">
+                    <div class="quick-stat-icon warning"><i class="fas fa-clock"></i></div>
+                    <div class="quick-stat-info">
+                        <h4>Pending Approval</h4>
+                        <p id="pendingRestaurants">8</p>
+                    </div>
+                </div>
+                <div class="quick-stat">
+                    <div class="quick-stat-icon danger"><i class="fas fa-ban"></i></div>
+                    <div class="quick-stat-info">
+                        <h4>Suspended</h4>
+                        <p id="suspendedRestaurants">6</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="filter-section">
+                <div class="filter-group">
+                    <label><i class="fas fa-filter"></i> Status:</label>
+                    <select id="statusFilter" class="form-select">
+                        <option value="all">All Restaurants</option>
+                        <option value="active">Active</option>
+                        <option value="pending">Pending Approval</option>
+                        <option value="suspended">Suspended</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label><i class="fas fa-search"></i> Search:</label>
+                    <input type="text" id="searchInput" class="form-input" placeholder="Restaurant name, owner...">
+                </div>
+                <button class="btn btn-primary" onclick="refreshRestaurants()"><i class="fas fa-sync"></i> Refresh</button>
+            </div>
+
+            <!-- Restaurants Table -->
+            <div class="dashboard-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-store"></i> All Restaurants</h2>
+                    <button class="btn btn-primary" onclick="addRestaurant()"><i class="fas fa-plus"></i> Add Restaurant</button>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Restaurant</th>
+                                <th>Owner</th>
+                                <th>Category</th>
+                                <th>Rating</th>
+                                <th>Orders</th>
+                                <th>Commission</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="restaurantsTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Restaurant Details Modal -->
+    <div id="restaurantModal" class="modal">
+        <div class="modal-content large-modal">
+            <div class="modal-header">
+                <h2><i class="fas fa-store"></i> Restaurant Details</h2>
+                <span class="modal-close" onclick="closeRestaurantModal()">&times;</span>
+            </div>
+            <div class="modal-body" id="restaurantModalContent"></div>
+        </div>
+    </div>
+
+    <script src="admin-common.js"></script>
+    <script src="admin-restaurants.js"></script>
+</body>
+</html>

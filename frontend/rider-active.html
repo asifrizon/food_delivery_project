@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Active Deliveries - Rider Dashboard</title>
+    <link rel="stylesheet" href="rider-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="logo-section">
+            <img src="image/logo (2).png" alt="Logo" class="sidebar-logo">
+            <h2>Gorom Delivery</h2>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <a href="rider-dashboard.html" class="nav-item">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="rider-orders.html" class="nav-item">
+                <i class="fas fa-shopping-bag"></i>
+                <span>Available Orders</span>
+                <span class="notification-badge" id="availableOrdersBadge">0</span>
+            </a>
+            <a href="rider-active.html" class="nav-item active">
+                <i class="fas fa-motorcycle"></i>
+                <span>Active Deliveries</span>
+                <span class="notification-badge active" id="activeOrdersBadge">0</span>
+            </a>
+            <a href="rider-history.html" class="nav-item">
+                <i class="fas fa-history"></i>
+                <span>Delivery History</span>
+            </a>
+            <a href="rider-earnings.html" class="nav-item">
+                <i class="fas fa-wallet"></i>
+                <span>Earnings</span>
+            </a>
+            <a href="rider-profile.html" class="nav-item">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+            </a>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <div class="online-status">
+                <label class="toggle-switch">
+                    <input type="checkbox" id="onlineToggle">
+                    <span class="toggle-slider"></span>
+                </label>
+                <span id="statusText">Offline</span>
+            </div>
+            <button class="logout-btn" onclick="handleLogout()">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <h1 class="page-title">Active Deliveries</h1>
+            
+            <div class="top-bar-actions">
+                <div class="online-indicator" id="onlineIndicator">
+                    <span class="status-dot offline"></span>
+                    <span class="status-text">Offline</span>
+                </div>
+                <div class="user-info">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="riderName">Rider Name</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Deliveries Content -->
+        <div class="dashboard-container">
+            <div class="dashboard-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-motorcycle"></i> Your Active Deliveries (<span id="deliveriesCount">0</span>)</h2>
+                </div>
+                
+                <div id="deliveriesContainer" class="deliveries-list">
+                    <!-- Active deliveries will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delivery Action Modal -->
+    <div id="actionModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="actionModalTitle"><i class="fas fa-check"></i> Confirm Action</h2>
+                <span class="modal-close" onclick="closeActionModal()">&times;</span>
+            </div>
+            
+            <div class="modal-body" id="actionModalContent">
+                <!-- Action confirmation will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="rider-common.js"></script>
+    <script src="rider-active.js"></script>
+</body>
+</html>

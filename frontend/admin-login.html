@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Gorom Delivery</title>
+    <link rel="stylesheet" href="admin-login-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <img src="image/logo (2).png" alt="Logo" class="logo">
+                <h1>Admin Panel</h1>
+                <p>Gorom Delivery Platform</p>
+            </div>
+            
+            <div class="security-notice">
+                <i class="fas fa-shield-alt"></i>
+                <p>Secure Administrator Access</p>
+            </div>
+            
+            <form id="adminLoginForm" class="login-form">
+                <div class="form-group">
+                    <label for="adminUsername">
+                        <i class="fas fa-user"></i>
+                        Username
+                    </label>
+                    <input 
+                        type="text" 
+                        id="adminUsername" 
+                        name="username" 
+                        placeholder="Enter admin username" 
+                        required
+                        autocomplete="username"
+                    >
+                </div>
+                
+                <div class="form-group">
+                    <label for="adminPassword">
+                        <i class="fas fa-lock"></i>
+                        Password
+                    </label>
+                    <input 
+                        type="password" 
+                        id="adminPassword" 
+                        name="password" 
+                        placeholder="Enter admin password" 
+                        required
+                        autocomplete="current-password"
+                    >
+                </div>
+                
+                <div class="form-group remember-me">
+                    <label>
+                        <input type="checkbox" id="rememberMe">
+                        <span>Remember me on this device</span>
+                    </label>
+                </div>
+                
+                <button type="submit" class="login-btn">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Login to Admin Panel
+                </button>
+            </form>
+            
+            <div class="login-footer">
+                <p class="warning-text">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Unauthorized access is prohibited
+                </p>
+                <p class="back-link">
+                    <a href="home.html">
+                        <i class="fas fa-arrow-left"></i>
+                        Back to Main Site
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Admin login handler
+        document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('adminUsername').value;
+            const password = document.getElementById('adminPassword').value;
+            
+            // TODO: Replace with actual API authentication
+            // For now, using mock authentication
+            // In production, this should verify against backend API with JWT
+            
+            // Mock admin credentials (REPLACE WITH REAL AUTH)
+            if (username === 'admin' && password === 'admin123') {
+                // Create admin user object
+                const adminUser = {
+                    username: username,
+                    role: 'admin',
+                    email: 'admin@goromdelivery.com',
+                    loginTime: new Date().toISOString()
+                };
+                
+                // Store in localStorage (use secure session storage in production)
+                localStorage.setItem('currentUser', JSON.stringify(adminUser));
+                
+                // Show success message
+                showNotification('Login successful! Redirecting...', 'success');
+                
+                // Redirect to admin dashboard
+                setTimeout(() => {
+                    window.location.href = 'admin-dashboard.html';
+                }, 1000);
+            } else {
+                // Show error
+                showNotification('Invalid username or password', 'error');
+                
+                // Clear password field
+                document.getElementById('adminPassword').value = '';
+                
+                // Add shake animation
+                const form = document.getElementById('adminLoginForm');
+                form.classList.add('shake');
+                setTimeout(() => form.classList.remove('shake'), 500);
+            }
+            
+            // TODO: Implement in production:
+            // fetch('/api/admin/login', {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify({ username, password })
+            // })
+            // .then(res => res.json())
+            // .then(data => {
+            //     if (data.success && data.role === 'admin') {
+            //         localStorage.setItem('adminToken', data.token);
+            //         localStorage.setItem('currentUser', JSON.stringify(data.user));
+            //         window.location.href = 'admin-dashboard.html';
+            //     } else {
+            //         showNotification('Access denied', 'error');
+            //     }
+            // })
+            // .catch(error => {
+            //     showNotification('Login failed', 'error');
+            // });
+        });
+        
+        // Show notification
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 'times-circle'}"></i>
+                <span>${message}</span>
+            `;
+            
+            document.body.appendChild(notification);
+            setTimeout(() => notification.classList.add('show'), 10);
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+        
+        // Add notification styles
+        const notificationStyles = document.createElement('style');
+        notificationStyles.textContent = `
+            .notification {
+                position: fixed;
+                top: 20px;
+                right: -400px;
+                background: white;
+                padding: 15px 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                z-index: 10000;
+                transition: right 0.3s ease;
+                min-width: 300px;
+            }
+            
+            .notification.show {
+                right: 20px;
+            }
+            
+            .notification i {
+                font-size: 1.5rem;
+            }
+            
+            .notification-success i {
+                color: #10b981;
+            }
+            
+            .notification-error i {
+                color: #ef4444;
+            }
+            
+            .notification span {
+                font-size: 0.95rem;
+                color: #1a1a2e;
+            }
+            
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-10px); }
+                75% { transform: translateX(10px); }
+            }
+            
+            .shake {
+                animation: shake 0.5s;
+            }
+        `;
+        document.head.appendChild(notificationStyles);
+    </script>
+</body>
+</html>

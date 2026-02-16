@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earnings - Rider Dashboard</title>
+    <link rel="stylesheet" href="rider-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="sidebar" id="sidebar">
+        <div class="logo-section">
+            <img src="image/logo (2).png" alt="Logo" class="sidebar-logo">
+            <h2>Gorom Delivery</h2>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="rider-dashboard.html" class="nav-item"><i class="fas fa-home"></i><span>Dashboard</span></a>
+            <a href="rider-orders.html" class="nav-item"><i class="fas fa-shopping-bag"></i><span>Available Orders</span></a>
+            <a href="rider-active.html" class="nav-item"><i class="fas fa-motorcycle"></i><span>Active Deliveries</span></a>
+            <a href="rider-history.html" class="nav-item"><i class="fas fa-history"></i><span>Delivery History</span></a>
+            <a href="rider-earnings.html" class="nav-item active"><i class="fas fa-wallet"></i><span>Earnings</span></a>
+            <a href="rider-profile.html" class="nav-item"><i class="fas fa-user"></i><span>Profile</span></a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="online-status">
+                <label class="toggle-switch">
+                    <input type="checkbox" id="onlineToggle">
+                    <span class="toggle-slider"></span>
+                </label>
+                <span id="statusText">Offline</span>
+            </div>
+            <button class="logout-btn" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i><span>Logout</span></button>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="top-bar">
+            <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+            <h1 class="page-title">Earnings</h1>
+            <div class="top-bar-actions">
+                <div class="user-info"><i class="fas fa-user-circle"></i><span id="riderName">Rider Name</span></div>
+            </div>
+        </div>
+        <div class="dashboard-container">
+            <div class="earnings-summary">
+                <div class="earning-card total">
+                    <div class="earning-icon"><i class="fas fa-coins"></i></div>
+                    <div class="earning-info">
+                        <p>Total Earnings</p>
+                        <h2 id="totalEarnings">৳0</h2>
+                        <span class="earning-period">All time</span>
+                    </div>
+                </div>
+                <div class="earning-card">
+                    <div class="earning-icon"><i class="fas fa-calendar-day"></i></div>
+                    <div class="earning-info">
+                        <p>Today</p>
+                        <h3 id="todayEarnings">৳0</h3>
+                    </div>
+                </div>
+                <div class="earning-card">
+                    <div class="earning-icon"><i class="fas fa-calendar-week"></i></div>
+                    <div class="earning-info">
+                        <p>This Week</p>
+                        <h3 id="weekEarnings">৳0</h3>
+                    </div>
+                </div>
+                <div class="earning-card">
+                    <div class="earning-icon"><i class="fas fa-calendar-alt"></i></div>
+                    <div class="earning-info">
+                        <p>This Month</p>
+                        <h3 id="monthEarnings">৳0</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="dashboard-section">
+                <h2><i class="fas fa-chart-line"></i> Earnings Breakdown</h2>
+                <div id="earningsBreakdown" style="padding: 20px;">
+                    <p style="text-align: center; color: #6b7280;">Earnings chart will be displayed here</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="rider-common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('totalEarnings').textContent = '৳45,250';
+            document.getElementById('todayEarnings').textContent = '৳850';
+            document.getElementById('weekEarnings').textContent = '৳3,250';
+            document.getElementById('monthEarnings').textContent = '৳15,680';
+        });
+    </script>
+</body>
+</html>
