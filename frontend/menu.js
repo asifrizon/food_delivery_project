@@ -41,7 +41,8 @@ fetch(`${API_URL}/${restaurantId}/menu`)
     .then(res => res.json())
     .then(response => {
         if (response.success) {
-            allFoodItems = response.data.food_items;
+            // Resolve is_primary image for every food item before use
+            allFoodItems = ImageHelper.resolveAll(response.data.food_items, 'food');
             
             displayRestaurantInfo();
             displayOffers(response.data.offers);
@@ -56,7 +57,7 @@ function displayRestaurantInfo() {
     const restaurantImage = document.getElementById('restaurantImage');
 
     // Check if the image URL is valid
-    restaurantImage.src = selectedRestaurant.image_url;
+    restaurantImage.src = ImageHelper.getRestaurantImage(selectedRestaurant);
 
     // Add error handling to show a default image if the provided image doesn't load
     restaurantImage.onerror = function() {
@@ -147,7 +148,7 @@ function displayFoodItems(foodItems) {
         
         grouped[category].forEach(item => {
             const price = parseFloat(item.price).toFixed(2);
-            // Use default image if image_url is missing or empty
+            // image_url already resolved by ImageHelper.resolveAll above
             const imageUrl = item.image_url || 'image/food_placeholder.png';
             
             html += `
@@ -275,13 +276,13 @@ function addToCart(foodItem, quantity) {
         name: foodItem.name,
         price: parseFloat(foodItem.price),
         quantity: quantity,
-        image: foodItem.image_url
+        image: ImageHelper.getFoodImage(foodItem)
     };
     
     OrderManager.addToOrder({
         restaurantId: selectedRestaurant.restaurant_id,
         name: selectedRestaurant.name,
-        image_url: selectedRestaurant.image_url,
+        image_url: ImageHelper.getRestaurantImage(selectedRestaurant),
         address: selectedRestaurant.address,
         police_station: selectedRestaurant.police_station
     }, [item]);
@@ -325,7 +326,7 @@ function openAddToCartModal(foodItem) {
     const modal = document.getElementById('addToCartModal');
     
     // Set food item details in modal
-    const imageUrl = foodItem.image_url || 'image/food_placeholder.png';
+    const imageUrl = ImageHelper.getFoodImage(foodItem);
     document.getElementById('modalFoodImage').src = imageUrl;
     document.getElementById('modalFoodImage').onerror = function() {
         this.src = 'image/food_11.png';
@@ -447,7 +448,7 @@ function displayRestaurantCart() {
         cartEmpty.style.display = 'none';
         cartContent.style.display = 'block';
         
-        const imageUrl = selectedRestaurant.image_url || 'image/food_2.png';
+        const imageUrl = ImageHelper.getRestaurantImage(selectedRestaurant);
         
         orderCard.innerHTML = `
             <div class="order-header">
@@ -543,43 +544,297 @@ function removeFromModal(foodId) {
 // Checkout Function
 // ===========================
 
+// ===========================
+// Checkout with Address Selection
+// ===========================
+
 function handleCheckout() {
     const order = getCurrentOrder();
-    
+
     if (!order || order.items.length === 0) {
         alert('Your cart is empty!');
         return;
     }
-    
-    // Create order summary
-    let orderSummary = `Order from ${selectedRestaurant.name}\n\n`;
-    orderSummary += 'Items:\n';
-    order.items.forEach(item => {
-        orderSummary += `- ${item.name} x${item.quantity} = ৳${(parseFloat(item.price) * item.quantity).toFixed(2)}\n`;
-    });
-    orderSummary += `\nSubtotal: ৳${order.subtotal.toFixed(2)}\n`;
-    orderSummary += `Delivery Fee: ৳${order.deliveryFee.toFixed(2)}\n`;
-    orderSummary += `VAT (${OrderManager.VAT_PERCENTAGE}%): ৳${order.vat.toFixed(2)}\n`;
-    orderSummary += `\nTotal: ৳${order.total.toFixed(2)}`;
-    
-    // Close the restaurant cart modal
+
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser || currentUser.role !== 'customer') {
+        alert('Please log in to place an order.');
+        window.location.href = 'home.html';
+        return;
+    }
+
     closeRestaurantCartModal();
-    
-    alert(orderSummary + '\n\nProceeding to checkout...');
-    
-    // Here you would typically redirect to a checkout page
-    // For API integration, use:
-    // const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    // if (currentUser && currentUser.addressId) {
-    //     OrderManager.submitOrder(restaurantId, currentUser.addressId, currentUser.userId)
-    //         .then(result => {
-    //             alert('Order placed successfully!');
-    //             window.location.href = 'order-confirmation.html';
-    //         })
-    //         .catch(error => {
-    //             alert('Failed to place order. Please try again.');
-    //         });
-    // }
+    openCheckoutModal(order, currentUser);
+}
+
+function openCheckoutModal(order, currentUser) {
+    const existing = document.getElementById('checkoutModal');
+    if (existing) existing.remove();
+
+    const addresses = AddressManager.getCachedAddresses();
+    const selectedAddr = AddressManager.getSelectedAddress();
+
+    const modal = document.createElement('div');
+    modal.id = 'checkoutModal';
+    modal.className = 'orders-modal';
+    modal.style.display = 'block';
+
+    modal.innerHTML = `
+        <div class="orders-modal-content" style="max-width: 540px; max-height: 85vh; overflow-y: auto;">
+            <div class="orders-modal-header">
+                <h2><i class="fas fa-check-circle"></i> Checkout</h2>
+                <span class="orders-close" id="closeCheckoutModal">&times;</span>
+            </div>
+
+            <!-- Order Summary -->
+            <div style="padding: 20px;">
+                <h3 style="font-size: 1rem; color: #1a1a2e; margin-bottom: 12px;">
+                    <i class="fas fa-receipt" style="color: #FF7A00;"></i> Order Summary
+                </h3>
+                <div style="background: #f8f9fa; border-radius: 8px; padding: 14px; margin-bottom: 20px;">
+                    ${order.items.map(item => `
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9rem; color: #4b5563;">
+                            <span>${item.name} <span style="color: #9ca3af;">×${item.quantity}</span></span>
+                            <span style="font-weight: 600; color: #1a1a2e;">৳${(item.price * item.quantity).toFixed(2)}</span>
+                        </div>
+                    `).join('')}
+                    <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 10px 0;">
+                    <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: #6b7280; margin-bottom: 4px;">
+                        <span>Subtotal</span><span>৳${order.subtotal.toFixed(2)}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: #6b7280; margin-bottom: 4px;">
+                        <span>Delivery Fee</span><span>৳${order.deliveryFee.toFixed(2)}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: #6b7280; margin-bottom: 8px;">
+                        <span>VAT (${OrderManager.VAT_PERCENTAGE}%)</span><span>৳${order.vat.toFixed(2)}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 1.05rem; font-weight: 700; color: #1a1a2e;">
+                        <span>Total</span><span style="color: #FF7A00;">৳${order.total.toFixed(2)}</span>
+                    </div>
+                </div>
+
+                <!-- Delivery Address Section -->
+                <h3 style="font-size: 1rem; color: #1a1a2e; margin-bottom: 12px;">
+                    <i class="fas fa-map-marker-alt" style="color: #FF7A00;"></i> Delivery Address
+                </h3>
+
+                ${addresses.length === 0 ? `
+                    <div style="background: #fff7f0; border: 1.5px solid #FF7A00; border-radius: 8px; padding: 14px; margin-bottom: 16px; color: #92400e; font-size: 0.9rem;">
+                        <i class="fas fa-exclamation-triangle"></i> No saved addresses found. Please add one below.
+                    </div>
+                ` : `
+                    <div id="checkoutAddressList" style="margin-bottom: 16px;">
+                        ${renderCheckoutAddressList(addresses, selectedAddr)}
+                    </div>
+                `}
+
+                <!-- Add New Address inline -->
+                <details id="addAddressSection" style="margin-bottom: 20px;">
+                    <summary style="cursor: pointer; font-size: 0.9rem; color: #FF7A00; font-weight: 600; padding: 8px 0; list-style: none;">
+                        <i class="fas fa-plus-circle"></i> Add a new address
+                    </summary>
+                    <div style="padding: 14px; background: #f9fafb; border-radius: 8px; margin-top: 10px;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                            <div>
+                                <label style="font-size: 0.82rem; font-weight: 500; color: #4b5563; display: block; margin-bottom: 4px;">City *</label>
+                                <select id="co_newCity" style="width:100%; padding: 7px 10px; border: 1.5px solid #e5e7eb; border-radius: 6px; font-family: inherit; font-size: 0.88rem;">
+                                    <option value="">Select City</option>
+                                    ${['Dhaka','Chittagong','Sylhet','Rajshahi','Khulna','Barisal','Rangpur','Mymensingh'].map(c => `<option>${c}</option>`).join('')}
+                                </select>
+                            </div>
+                            <div>
+                                <label style="font-size: 0.82rem; font-weight: 500; color: #4b5563; display: block; margin-bottom: 4px;">Thana *</label>
+                                <input type="text" id="co_newThana" placeholder="e.g. Mirpur" style="width:100%; padding: 7px 10px; border: 1.5px solid #e5e7eb; border-radius: 6px; font-family: inherit; font-size: 0.88rem;">
+                            </div>
+                        </div>
+                        <div style="margin-top: 10px;">
+                            <label style="font-size: 0.82rem; font-weight: 500; color: #4b5563; display: block; margin-bottom: 4px;">Address Details *</label>
+                            <textarea id="co_newDetails" placeholder="House/Flat No, Road, Area" rows="2" style="width:100%; padding: 7px 10px; border: 1.5px solid #e5e7eb; border-radius: 6px; font-family: inherit; font-size: 0.88rem; resize: vertical;"></textarea>
+                        </div>
+                        <button id="co_saveAddrBtn" type="button" style="margin-top: 10px; padding: 8px 18px; background: #FF7A00; color: white; border: none; border-radius: 6px; font-size: 0.88rem; font-weight: 600; cursor: pointer; font-family: inherit;">
+                            <i class="fas fa-save"></i> Save & Use This Address
+                        </button>
+                    </div>
+                </details>
+
+                <!-- Place Order Button -->
+                <button id="placeOrderBtn" style="
+                    width: 100%; padding: 14px; background: linear-gradient(135deg, #FF7A00, #e66d00);
+                    color: white; border: none; border-radius: 10px; font-size: 1rem; font-weight: 700;
+                    cursor: pointer; font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 10px;
+                ">
+                    <i class="fas fa-check-circle"></i> Place Order · ৳${order.total.toFixed(2)}
+                </button>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    // Close
+    document.getElementById('closeCheckoutModal').onclick = () => modal.remove();
+    modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
+
+    // Select address
+    modal.addEventListener('click', function (e) {
+        const btn = e.target.closest('.co-select-addr-btn');
+        if (btn) {
+            const id = btn.dataset.id;
+            const addresses = AddressManager.getCachedAddresses();
+            const addr = addresses.find(a => String(a.address_id) === String(id));
+            if (addr) {
+                AddressManager.setSelectedAddress(addr);
+                const listEl = document.getElementById('checkoutAddressList');
+                if (listEl) listEl.innerHTML = renderCheckoutAddressList(addresses, addr);
+            }
+        }
+    });
+
+    // Save new address from checkout
+    document.getElementById('co_saveAddrBtn').addEventListener('click', async function () {
+        const city = document.getElementById('co_newCity').value;
+        const thana = document.getElementById('co_newThana').value;
+        const details = document.getElementById('co_newDetails').value;
+
+        if (!city || !thana || !details) {
+            alert('Please fill in all address fields.');
+            return;
+        }
+
+        const newAddr = { city, thana, address_details: details, is_default: false, address_id: Date.now() };
+
+        try {
+            const saved = await AddressManager.addAddress(currentUser.user_id, { city, thana, address_details: details, is_default: false });
+            AddressManager.setSelectedAddress(saved);
+        } catch {
+            const addresses = AddressManager.getCachedAddresses();
+            addresses.push(newAddr);
+            localStorage.setItem('gorom_user_addresses', JSON.stringify(addresses));
+            AddressManager.setSelectedAddress(newAddr);
+        }
+
+        // Refresh address list
+        const allAddresses = AddressManager.getCachedAddresses();
+        const selected = AddressManager.getSelectedAddress();
+        const listEl = document.getElementById('checkoutAddressList');
+        if (listEl) {
+            listEl.innerHTML = renderCheckoutAddressList(allAddresses, selected);
+        } else {
+            // Was showing "no addresses" — replace that section
+            const noAddrMsg = modal.querySelector('[data-no-addr]');
+            if (noAddrMsg) {
+                const div = document.createElement('div');
+                div.id = 'checkoutAddressList';
+                div.innerHTML = renderCheckoutAddressList(allAddresses, selected);
+                noAddrMsg.replaceWith(div);
+            }
+        }
+
+        // Close the details element
+        document.getElementById('addAddressSection').removeAttribute('open');
+    });
+
+    // Place order
+    document.getElementById('placeOrderBtn').addEventListener('click', async function () {
+        const deliveryAddress = AddressManager.getSelectedAddress();
+
+        if (!deliveryAddress) {
+            alert('Please select or add a delivery address before placing the order.');
+            return;
+        }
+
+        const btn = this;
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Placing Order...';
+
+        try {
+            if (currentUser.user_id && deliveryAddress.address_id) {
+                // Real API submit
+                const result = await OrderManager.submitOrder(
+                    restaurantId,
+                    deliveryAddress.address_id,
+                    currentUser.user_id
+                );
+                modal.remove();
+                showOrderSuccessModal(result, deliveryAddress);
+            } else {
+                // Fallback: mock success
+                await new Promise(r => setTimeout(r, 1000));
+                OrderManager.removeOrder(restaurantId);
+                modal.remove();
+                showOrderSuccessModal(null, deliveryAddress);
+            }
+        } catch (error) {
+            console.error('Order submit error:', error);
+            btn.disabled = false;
+            btn.innerHTML = `<i class="fas fa-check-circle"></i> Place Order · ৳${order.total.toFixed(2)}`;
+            alert('Failed to place order. Please try again.');
+        }
+    });
+}
+
+function renderCheckoutAddressList(addresses, selectedAddr) {
+    if (!addresses || addresses.length === 0) return '';
+    return addresses.map(addr => {
+        const isSelected = selectedAddr && String(selectedAddr.address_id) === String(addr.address_id);
+        return `
+            <div style="
+                border: 2px solid ${isSelected ? '#FF7A00' : '#e5e7eb'};
+                border-radius: 10px; padding: 12px 14px; margin-bottom: 10px;
+                background: ${isSelected ? '#fff7f0' : '#f9fafb'};
+                display: flex; justify-content: space-between; align-items: center;
+            ">
+                <div>
+                    ${addr.is_default ? `<span style="font-size:0.7rem; background:#FF7A00; color:white; padding: 1px 7px; border-radius: 8px; font-weight:600; margin-right: 6px;">DEFAULT</span>` : ''}
+                    <span style="font-weight: 600; color: #1a1a2e; font-size: 0.9rem;">${addr.address_details || addr.addressDetails || ''}</span>
+                    <div style="color: #6b7280; font-size: 0.85rem; margin-top: 3px;">${addr.thana}, ${addr.city}</div>
+                </div>
+                <button class="co-select-addr-btn" data-id="${addr.address_id}" style="
+                    padding: 6px 14px; font-size: 0.85rem; border-radius: 6px; cursor: pointer; font-family: inherit; font-weight: 600; white-space: nowrap;
+                    background: ${isSelected ? '#10b981' : '#FF7A00'}; color: white; border: none; margin-left: 12px;
+                ">
+                    ${isSelected ? '<i class="fas fa-check"></i> Selected' : 'Deliver Here'}
+                </button>
+            </div>
+        `;
+    }).join('');
+}
+
+function showOrderSuccessModal(result, deliveryAddress) {
+    const existing = document.getElementById('orderSuccessModal');
+    if (existing) existing.remove();
+
+    const modal = document.createElement('div');
+    modal.id = 'orderSuccessModal';
+    modal.className = 'orders-modal';
+    modal.style.display = 'block';
+
+    const orderId = result?.order_id || result?.data?.order_id || `ORD_${Date.now()}`;
+
+    modal.innerHTML = `
+        <div class="orders-modal-content" style="max-width: 420px; text-align: center; padding: 40px 30px;">
+            <div style="width: 80px; height: 80px; background: #d1fae5; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                <i class="fas fa-check" style="font-size: 2.5rem; color: #10b981;"></i>
+            </div>
+            <h2 style="color: #1a1a2e; margin-bottom: 10px;">Order Placed!</h2>
+            <p style="color: #6b7280; margin-bottom: 6px;">Your order has been sent to the restaurant.</p>
+            <p style="font-size: 0.85rem; color: #9ca3af; margin-bottom: 20px;">Order ID: <strong>${orderId}</strong></p>
+            <div style="background: #f8f9fa; border-radius: 8px; padding: 12px; text-align: left; margin-bottom: 24px;">
+                <p style="font-size: 0.85rem; color: #4b5563; margin: 0;">
+                    <i class="fas fa-map-marker-alt" style="color: #FF7A00; margin-right: 6px;"></i>
+                    Delivering to: <strong>${AddressManager.formatAddress(deliveryAddress)}</strong>
+                </p>
+            </div>
+            <button onclick="document.getElementById('orderSuccessModal').remove(); window.location.href='home.html';" style="
+                width: 100%; padding: 12px; background: linear-gradient(135deg, #FF7A00, #e66d00);
+                color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 700;
+                cursor: pointer; font-family: inherit;
+            ">Back to Home</button>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+    modal.onclick = (e) => { if (e.target === modal) { modal.remove(); window.location.href = 'home.html'; } };
 }
 
 // Modal Event Listeners

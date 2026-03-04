@@ -1,14 +1,12 @@
 const express = require('express');
-const cors = require('cors'); // Add this
+const cors = require('cors');
 
 const app = express();
 
-// Add CORS BEFORE routes
-app.use(cors()); // Add this line
+app.use(cors());
 
 app.use(express.json());
 
-// Your routes
 const restaurantRoutes = require('./routes/restaurant');
 app.use('/api/restaurants', restaurantRoutes);
 

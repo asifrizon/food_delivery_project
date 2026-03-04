@@ -101,6 +101,8 @@ async function loadMenuItems(restaurantId) {
         }
     ];
     
+    // Resolve is_primary images before display
+    allMenuItems = ImageHelper.resolveAll(allMenuItems, 'food');
     ownerPortal.hideLoading();
     displayCategories();
     displayMenuItems(allMenuItems);
@@ -160,7 +162,7 @@ function displayMenuItems(items) {
     grid.innerHTML = items.map(item => `
         <div class="menu-item-card">
             <div class="menu-item-image">
-                <img src="${item.image_url}" alt="${item.name}" onerror="this.src='image/food_11.png'">
+                <img src="${ImageHelper.getFoodImage(item)}" alt="${item.name}" onerror="this.src='image/food_11.png'">
                 <span class="availability-badge ${item.availability === 'Y' ? 'badge-available' : 'badge-unavailable'}">
                     ${item.availability === 'Y' ? 'Available' : 'Not Available'}
                 </span>
@@ -225,9 +227,11 @@ function editMenuItem(itemId) {
     document.getElementById('itemDescription').value = item.description || '';
     document.getElementById('itemImage').value = item.image_url || '';
     
-    if (item.image_url) {
+    // Show preview using resolved primary image
+    const previewUrl = ImageHelper.getFoodImage(item);
+    if (previewUrl !== ImageHelper.FALLBACK_FOOD) {
         document.getElementById('itemImagePreview').innerHTML = `
-            <img src="${item.image_url}" alt="Preview">
+            <img src="${previewUrl}" alt="Preview">
         `;
     }
     

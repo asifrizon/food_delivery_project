@@ -73,7 +73,7 @@ function displayRestaurants(restaurants) {
     grid.innerHTML = restaurants.map(restaurant => `
         <div class="restaurant-card">
             <div class="restaurant-image">
-                <img src="${restaurant.image_url}" alt="${restaurant.name}" onerror="this.src='image/food_2.png'">
+                <img src="${ImageHelper.getRestaurantImage(restaurant)}" alt="${restaurant.name}" onerror="this.src='image/food_2.png'">
                 <span class="status-badge ${restaurant.status === 'active' ? 'status-active' : 'status-inactive'}">
                     ${restaurant.status === 'active' ? 'Active' : 'Inactive'}
                 </span>
@@ -164,10 +164,11 @@ async function editRestaurant(restaurantId) {
     document.getElementById('restaurantDescription').value = mockData.description || '';
     document.getElementById('restaurantImage').value = mockData.image_url || '';
     
-    // Show preview
-    if (mockData.image_url) {
+    // Show preview using resolved primary image
+    const previewUrl = ImageHelper.getRestaurantImage(mockData);
+    if (previewUrl !== ImageHelper.FALLBACK_RESTAURANT) {
         document.getElementById('imagePreview').innerHTML = `
-            <img src="${mockData.image_url}" alt="Preview">
+            <img src="${previewUrl}" alt="Preview">
         `;
     }
     

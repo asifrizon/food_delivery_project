@@ -66,8 +66,6 @@ async function loadAvailableOrders() {
         return;
     }
     
-    // TODO: Replace with actual API call
-    // const result = await riderPortal.apiRequest('/rider/available-orders');
     
     // Mock data
     availableOrders = [

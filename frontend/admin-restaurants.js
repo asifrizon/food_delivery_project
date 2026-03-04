@@ -84,6 +84,8 @@ async function loadRestaurants() {
         }
     ];
     
+    // Resolve is_primary images (future-proof for when image arrays come from API)
+    allRestaurants = ImageHelper.resolveAll(allRestaurants, 'restaurant');
     filteredRestaurants = [...allRestaurants];
     adminPortal.hideLoading();
     applyFilters();
